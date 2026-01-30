@@ -26,8 +26,7 @@ function App() {
 					<Navbar />
 					<div className="min-h-[80vh]">
 						<Routes>
-							<Route path="/" element={<Login />} />
-							<Route path="/home" element={<Home />} />
+							<Route path="/" element={<Home />} />							
 							<Route path="/cadastro"	element={<Cadastro />}/>
 							<Route path="/especialidades" element={<ListaEspecialidades />} />
 							<Route path="/cadastrarespecialidade" element={<FormEspecialidade />} />
@@ -39,6 +38,7 @@ function App() {
 							<Route path="/deletarconsulta/:id" element={<DeletarConsulta />} />
 							<Route path="/perfil" element={<Perfil />} />
 							<Route path="/sobrenos" element={<Sobrenos />} />
+							<Route path="/login" element={<Login />} />
 						</Routes>
 					</div>
 					<Footer />

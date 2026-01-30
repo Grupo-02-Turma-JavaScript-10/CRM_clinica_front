@@ -10,6 +10,7 @@ function Navbar() {
         <li><a href="/especialidades">Especialidades</a></li>
         <li><a href="/perfil">Perfil</a></li>
          <li><a href="/sobrenos">Sobre-nos</a></li>
+          <li><a href="/login">login</a></li>
       </ul>
     </nav>
   )
