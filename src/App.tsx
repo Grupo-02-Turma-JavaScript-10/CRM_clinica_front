@@ -14,6 +14,7 @@ import FormConsulta from './components/consulta/formconsulta/FormConsulta';
 import DeletarConsulta from './components/consulta/deletarconsulta/DeletarConsulta';
 import Perfil from './pages/perfil/Perfil';
 import ListaEspecialidades from './components/especialidade/listaespecialidades/ListaEspecialidades';
+import Sobrenos from './pages/sobrenos/Sobrenos';
 
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
 							<Route path="/editarconsulta/:id" element={<FormConsulta />} />
 							<Route path="/deletarconsulta/:id" element={<DeletarConsulta />} />
 							<Route path="/perfil" element={<Perfil />} />
+							<Route path="/sobrenos" element={<Sobrenos />} />
 						</Routes>
 					</div>
 					<Footer />
