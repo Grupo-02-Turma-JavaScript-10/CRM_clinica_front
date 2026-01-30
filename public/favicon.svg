@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-label="CRMed Icon Dark">
+  <defs>
+    <linearGradient id="crmGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#20C0C0"/>
+      <stop offset="100%" stop-color="#3090E0"/>
+    </linearGradient>
+
+    <filter id="softShadow" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="0" dy="14" stdDeviation="14" flood-color="#000" flood-opacity="0.35"/>
+    </filter>
+
+    <path id="heart" d="
+      M 0 10
+      C 0 3 6 0 11 0
+      C 15 0 19 2 21 6
+      C 23 2 27 0 31 0
+      C 36 0 42 3 42 10
+      C 42 19 33 25 21 34
+      C 9 25 0 19 0 10
+      Z"/>
+  </defs>
+
+  <!-- fundo transparente (ideal pra usar em qualquer lugar) -->
+
+  <g transform="translate(28,28)" filter="url(#softShadow)">
+    <!-- base -->
+    <circle cx="100" cy="100" r="92" fill="url(#crmGrad)"/>
+
+    <!-- órbitas -->
+    <circle cx="100" cy="100" r="68" fill="none" stroke="#EAF2FF" stroke-opacity="0.25" stroke-width="10"/>
+    <circle cx="100" cy="100" r="44" fill="none" stroke="#EAF2FF" stroke-opacity="0.18" stroke-width="10"/>
+
+    <!-- pontos/conexões -->
+    <circle cx="152" cy="74" r="9" fill="#EAF2FF" opacity="0.95"/>
+    <circle cx="66" cy="136" r="8" fill="#EAF2FF" opacity="0.85"/>
+
+    <!-- coração -->
+    <g transform="translate(79,78) scale(1.05)">
+      <use href="#heart" fill="#0B1220"/>
+    </g>
+  </g>
+</svg>
