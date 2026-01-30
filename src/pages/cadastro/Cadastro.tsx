@@ -2,7 +2,7 @@
 function Cadastro(){
     return(
         <div>
-            <p>cadastros</p>
+            <p>cadastros aqui</p>
         </div>
 
     )

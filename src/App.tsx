@@ -39,6 +39,7 @@ function App() {
 							<Route path="/perfil" element={<Perfil />} />
 							<Route path="/sobrenos" element={<Sobrenos />} />
 							<Route path="/login" element={<Login />} />
+							<Route path="/cadastro" element={<Cadastro />} />
 						</Routes>
 					</div>
 					<Footer />
