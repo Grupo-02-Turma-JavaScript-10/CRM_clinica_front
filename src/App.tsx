@@ -23,46 +23,52 @@ import ListaConsulta from "./components/consulta/listaconsulta/ListaConsulta";
 import FormConsulta from "./components/consulta/formconsulta/FormConsulta";
 import DeletarConsulta from "./components/consulta/deletarconsulta/DeletarConsulta";
 
+import ConstelacaoBackground from "./components/background/ConstelacaoBackground";
+
 function App() {
   return (
-    <>
-      <ToastContainer />
+    <BrowserRouter>
+      <ConstelacaoBackground>
+        <ToastContainer />
 
-      <BrowserRouter>
-        <Navbar />
+        <div className="app-shell">
+          <Navbar />
 
-        <main className="min-h-[80vh]">
-          <Routes>
-            <Route path="/" element={<Home />} />
+          <main className="min-h-[80vh]">
+            <Routes>
+              <Route path="/" element={<Home />} />
 
-            <Route path="/login" element={<Login />} />
-            <Route path="/cadastro" element={<Cadastro />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/cadastro" element={<Cadastro />} />
 
-            <Route path="/especialidades" element={<ListaEspecialidades />} />
-            <Route path="/cadastrarespecialidade" element={<FormEspecialidade />} />
-            <Route path="/editarespecialidade/:id" element={<FormEspecialidade />} />
-            <Route path="/deletarespecialidade/:id" element={<DeletarEspecialidade />} />
+              <Route path="/especialidades" element={<ListaEspecialidades />} />
+              <Route path="/cadastrarespecialidade" element={<FormEspecialidade />} />
+              <Route path="/editarespecialidade/:id" element={<FormEspecialidade />} />
+              <Route path="/deletarespecialidade/:id" element={<DeletarEspecialidade />} />
 
-            <Route path="/consultas" element={<ListaConsulta />} />
-            <Route path="/cadastrarconsulta" element={<FormConsulta />} />
-            <Route path="/editarconsulta/:id" element={<FormConsulta />} />
-            <Route path="/deletarconsulta/:id" element={<DeletarConsulta />} />
-			
-			<Route path="/perfil" element={
-				<PrivateRoute>
-					<Perfil />
-				</PrivateRoute>
-			} />   
+              <Route path="/consultas" element={<ListaConsulta />} />
+              <Route path="/cadastrarconsulta" element={<FormConsulta />} />
+              <Route path="/editarconsulta/:id" element={<FormConsulta />} />
+              <Route path="/deletarconsulta/:id" element={<DeletarConsulta />} />
 
-            <Route path="/sobrenos" element={<Sobrenos />} />
-          </Routes>
-        </main>
+              <Route
+                path="/perfil"
+                element={
+                  <PrivateRoute>
+                    <Perfil />
+                  </PrivateRoute>
+                }
+              />
 
-        <ThemeToggle />
+              <Route path="/sobrenos" element={<Sobrenos />} />
+            </Routes>
+          </main>
 
-        <Footer />
-      </BrowserRouter>
-    </>
+          <ThemeToggle />
+          <Footer />
+        </div>
+      </ConstelacaoBackground>
+    </BrowserRouter>
   );
 }
 

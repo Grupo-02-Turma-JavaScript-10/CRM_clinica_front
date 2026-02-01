@@ -1,3 +1,4 @@
+
 export const AUTH_TOKEN_KEY = "crmed_token";
 
 export function isAuthenticated(): boolean {
@@ -17,3 +18,4 @@ export function clearToken() {
   localStorage.removeItem(AUTH_TOKEN_KEY);
   window.dispatchEvent(new Event("auth-changed"));
 }
+
