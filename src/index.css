@@ -81,7 +81,7 @@ html, body {
 }
 
 * {
-  transition: background-color 360ms ease, border-color 360ms ease, box-shadow 360ms ease, transform 160ms ease;
+transition: background-color 360ms ease, border-color 360ms ease, box-shadow 360ms ease, transform 160ms ease;
 }
 
 a, button {
@@ -176,6 +176,7 @@ html.theme-dark .glass-footer {
 
 .logo-dark { display: none; }
 .logo-light { display: block; }
+
 html.theme-dark .logo-dark { display: block; }
 html.theme-dark .logo-light { display: none; }
 
