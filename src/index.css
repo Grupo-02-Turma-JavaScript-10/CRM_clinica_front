@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-{ box-sizing: border-box; }
+* { box-sizing: border-box; }
 html, body { height: 100%; }
 
 body {
@@ -78,7 +78,7 @@ html, body {
   transition: background-color 360ms ease;
 }
 
-{
+* {
 transition: background-color 360ms ease, border-color 360ms ease, box-shadow 360ms ease, transform 160ms ease;
 }
 
