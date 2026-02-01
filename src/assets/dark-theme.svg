@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="260" viewBox="0 0 760 260" role="img" aria-label="CRMed Logo Dark - Plus Jakarta Sans">
+  <defs>
+    <linearGradient id="crmGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#20C0C0"/>
+      <stop offset="100%" stop-color="#3090E0"/>
+    </linearGradient>
+
+    <linearGradient id="edGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#2DD4BF"/>
+      <stop offset="55%" stop-color="#2DD4BF"/>
+      <stop offset="100%" stop-color="#3B82F6"/>
+    </linearGradient>
+
+    <filter id="softShadow" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="0" dy="14" stdDeviation="14" flood-color="#000" flood-opacity="0.35"/>
+    </filter>
+
+    <path id="heart" d="
+      M 0 10
+      C 0 3 6 0 11 0
+      C 15 0 19 2 21 6
+      C 23 2 27 0 31 0
+      C 36 0 42 3 42 10
+      C 42 19 33 25 21 34
+      C 9 25 0 19 0 10
+      Z"/>
+
+    <style>
+      .brand {
+        font-family: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+        font-weight: 800;
+        letter-spacing: -0.8px;
+      }
+    </style>
+  </defs>
+
+  <!-- Ícone -->
+  <g transform="translate(70,55)" filter="url(#softShadow)">
+    <circle cx="75" cy="75" r="70" fill="url(#crmGrad)"/>
+
+    <circle cx="75" cy="75" r="52" fill="none" stroke="#EAF2FF" stroke-opacity="0.25" stroke-width="8"/>
+    <circle cx="75" cy="75" r="34" fill="none" stroke="#EAF2FF" stroke-opacity="0.18" stroke-width="8"/>
+
+    <circle cx="115" cy="55" r="7" fill="#EAF2FF" opacity="0.95"/>
+    <circle cx="45" cy="102" r="6" fill="#EAF2FF" opacity="0.85"/>
+
+    <g transform="translate(54,56) scale(0.95)">
+      <use href="#heart" fill="#0B1220"/>
+    </g>
+  </g>
+
+  <!-- Nome (alinhado após o ícone + mais embaixo + mais colado) -->
+  <g transform="translate(232,150)">
+    <text x="0" y="0" text-anchor="start" class="brand" font-size="68" fill="#EAF2FF">
+      CRM<tspan fill="url(#edGrad)">ed</tspan>
+    </text>
+  </g>
+</svg>
