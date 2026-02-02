@@ -1,5 +1,6 @@
 @import "tailwindcss";
-{ box-sizing: border-box; }
+
+* { box-sizing: border-box; }
 html, body { height: 100%; }
 
 body {
@@ -77,8 +78,8 @@ html, body {
   transition: background-color 360ms ease;
 }
 
-{
-transition: background-color 360ms ease, border-color 360ms ease, box-shadow 360ms ease, transform 160ms ease;
+* {
+  transition: background-color 360ms ease, border-color 360ms ease, box-shadow 360ms ease, transform 160ms ease;
 }
 
 a, button {
@@ -145,3 +146,201 @@ html.theme-dark .glass-header {
 
 html.theme-dark .logo-dark { display: block; }
 html.theme-dark .logo-light { display: none; }
+
+.nav-glass {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  position: relative;
+  border-radius: 16px;
+  padding: 10px 14px;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--muted);
+  user-select: none;
+  overflow: hidden;
+
+  border: none;
+
+  background: rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(12px);
+
+  will-change: transform;
+  transform: translateZ(0);
+  transition:
+    transform 160ms ease,
+    color 200ms ease,
+    background-color 260ms ease,
+    box-shadow 260ms ease;
+}
+
+html.theme-dark .nav-glass {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(14px);
+}
+
+.nav-glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  opacity: 0;
+  transition: opacity 260ms ease;
+  background:
+    radial-gradient(700px 120px at 20% 20%, rgba(45, 212, 191, 0.16), transparent 60%),
+    radial-gradient(700px 120px at 80% 30%, rgba(59, 130, 246, 0.14), transparent 60%);
+}
+
+.nav-glass:hover {
+  color: var(--text);
+  transform: translateY(-2px) scale(1.03);
+
+  background: rgba(255, 255, 255, 0.50);
+  box-shadow: 0 16px 44px rgba(2, 6, 23, 0.08);
+}
+
+html.theme-dark .nav-glass:hover {
+  background: rgba(255, 255, 255, 0.09);
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.55),
+    0 0 32px rgba(45, 212, 191, 0.10),
+    0 0 22px rgba(59, 130, 246, 0.08);
+}
+
+.nav-glass:hover::before {
+  opacity: 1;
+}
+
+.nav-glass:active {
+  transform: translateY(0) scale(0.99);
+}
+
+.nav-glass-underline {
+  pointer-events: none;
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: -7px;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--grad);
+  opacity: 0;
+  transform: scaleX(0.55);
+  transform-origin: left;
+  transition: opacity 220ms ease, transform 220ms ease;
+}
+
+.nav-glass:hover .nav-glass-underline {
+  opacity: 0.75;
+  transform: scaleX(1);
+}
+
+.nav-glass--active .nav-glass-underline {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+html:not(.theme-dark) .nav-glass--active {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow:
+    0 10px 24px rgba(2, 6, 23, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.70);
+}
+
+html:not(.theme-dark) .nav-glass--active::before,
+html:not(.theme-dark) .nav-glass--active::after {
+  content: none;
+}
+
+html:not(.theme-dark) .nav-glass--active .nav-glass-underline {
+  opacity: 1;
+  transform: scaleX(1);
+  height: 3px;
+  bottom: 6px; 
+  border-radius: 999px;
+  filter: none;
+}
+
+html:not(.theme-dark) .nav-glass--active:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow:
+    0 14px 30px rgba(2, 6, 23, 0.10),
+    inset 0 1px 0 rgba(255, 255, 255, 0.75);
+}
+
+html.theme-dark .nav-glass--active {
+  color: #EAF2FF;
+  background: rgba(255, 255, 255, 0.10);
+  box-shadow:
+    0 22px 70px rgba(0, 0, 0, 0.62),
+    0 0 26px rgba(45, 212, 191, 0.08),
+    0 0 14px rgba(59, 130, 246, 0.06);
+}
+
+html.theme-dark .nav-glass--active::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  pointer-events: none;
+
+  background:
+    radial-gradient(120% 70% at 50% 110%, rgba(45, 212, 191, 0.34), transparent 62%),
+    radial-gradient(120% 70% at 20% 120%, rgba(59, 130, 246, 0.24), transparent 60%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.00));
+  opacity: 1;
+}
+
+html.theme-dark .nav-glass--active::after {
+  content: "";
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: -9px;
+  height: 12px;
+  border-radius: 999px;
+  background: var(--grad);
+  filter: blur(16px);
+  opacity: 1;
+  pointer-events: none;
+}
+
+.cta-jump {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+.cta-jump:hover {
+  transform: translateY(-2px) scale(1.03);
+}
+
+.cta-jump:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.nav-danger {
+  color: var(--muted);
+}
+
+.nav-danger .nav-glass-underline {
+  background: linear-gradient(90deg, rgba(239, 68, 68, 0.95), rgba(239, 68, 68, 0.35));
+}
+
+html.theme-dark .nav-danger:hover {
+  color: #fff;
+  background: rgba(239, 68, 68, 0.16);
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(239, 68, 68, 0.16),
+    0 0 26px rgba(239, 68, 68, 0.12);
+}
+
+html:not(.theme-dark) .nav-danger:hover {
+  color: #991B1B;
+  background: rgba(239, 68, 68, 0.12);
+  box-shadow:
+    0 16px 44px rgba(2, 6, 23, 0.08),
+    0 0 0 1px rgba(239, 68, 68, 0.10);
+}
