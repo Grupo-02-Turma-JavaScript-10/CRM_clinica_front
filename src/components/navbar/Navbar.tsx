@@ -23,6 +23,8 @@ export default function Navbar() {
       return [
         { to: "/", label: "Home" },
         { to: "/sobrenos", label: "Sobre nós" },
+        { to: "/consultas", label: "Consultas" },
+        { to: "/especialidades", label: "Especialidades" },
       ];
     }
 
