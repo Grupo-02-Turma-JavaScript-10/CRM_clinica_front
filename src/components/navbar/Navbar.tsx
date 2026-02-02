@@ -15,15 +15,23 @@ export default function Navbar() {
 
   const isPerfilActive = logged && pathname.startsWith("/perfil");
 
-  const links = useMemo(
-    () => [
+  const links = useMemo(() => {
+    if (!logged) {
+      return [
+        { to: "/", label: "Home" },
+        { to: "/sobrenos", label: "Sobre nós" },
+        { to: "/consultas", label: "Consultas" },
+        { to: "/especialidades", label: "Especialidades" },
+      ];
+    }
+
+    return [
       { to: "/", label: "Home" },
       { to: "/consultas", label: "Consultas" },
       { to: "/especialidades", label: "Especialidades" },
       { to: "/sobrenos", label: "Sobre nós" },
-    ],
-    []
-  );
+    ];
+  }, [logged]);
 
   const focusRing =
     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]/70 " +
@@ -36,7 +44,7 @@ export default function Navbar() {
 
     sync();
     window.addEventListener("auth-changed", sync);
-    window.addEventListener("storage", sync); 
+    window.addEventListener("storage", sync);
     return () => {
       window.removeEventListener("auth-changed", sync);
       window.removeEventListener("storage", sync);
@@ -50,19 +58,19 @@ export default function Navbar() {
   }
 
   return (
-    <header className="relative sticky top-0 z-50 glass-header topline h-20">
+    <header className="sticky top-0 z-[999] w-full glass-header topline h-20">
       <div className="mx-auto flex h-full max-w-7xl items-center justify-between px-4">
         <NavLink to="/" className="flex items-center gap-3">
           <img
             src={LogoLight}
             alt="CRMed"
-            className="logo-light h-16 w-auto select-none"
+            className="logo-light h-20 w-auto select-none"
             draggable={false}
           />
           <img
             src={LogoDark}
             alt="CRMed"
-            className="logo-dark h-16 w-auto select-none"
+            className="logo-dark h-20 w-auto select-none"
             draggable={false}
           />
         </NavLink>
@@ -213,9 +221,7 @@ export default function Navbar() {
                     to="/login"
                     onClick={() => setOpen(false)}
                     className={({ isActive }) =>
-                      `nav-glass ${focusRing} text-center block ${
-                        isActive ? "nav-glass--active" : ""
-                      }`
+                      `nav-glass ${focusRing} text-center block ${isActive ? "nav-glass--active" : ""}`
                     }
                   >
                     <>
@@ -239,19 +245,17 @@ export default function Navbar() {
                   </NavLink>
                 </>
               ) : (
-                <>
-                  <button
-                    type="button"
-                    className={`nav-glass nav-danger ${focusRing}`}
-                    title="Sair"
-                    onClick={handleLogout}
-                  >
-                    <>
-                      <span className="nav-glass-underline" />
-                      Sair
-                    </>
-                  </button>
-                </>
+                <button
+                  type="button"
+                  className={`nav-glass nav-danger ${focusRing}`}
+                  title="Sair"
+                  onClick={handleLogout}
+                >
+                  <>
+                    <span className="nav-glass-underline" />
+                    Sair
+                  </>
+                </button>
               )}
             </div>
           </div>
