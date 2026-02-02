@@ -1,71 +1,114 @@
-import * as Icon from 'phosphor-react'
-import CardConsulta from '../cardconsulta/CardConsulta'
+import {
+  CircleNotch,
+  PlusCircle,
+  Plus,
+} from "@phosphor-icons/react";
+
+import CardConsulta from "../cardconsulta/CardConsulta";
 
 function ListaConsultas() {
-    // Dados fictícios apenas para visualização da estilização
-    const consultasMock = [
-        { id: 1, paciente: { nome: 'Paciente 1' }, especialidade: { nome: 'Cardiologia' }, data: '20/05/2026', hora: '14:30' },
-        { id: 2, paciente: { nome: 'paciente 2' }, especialidade: { nome: 'Ortopedia' }, data: '21/05/2026', hora: '09:00' },
-        { id: 3, paciente: { nome: 'paciente 3' }, especialidade: { nome: 'Clínico Geral' }, data: '22/05/2026', hora: '10:15' },
-    ];
+  const consultasMock = [
+    { id: 1, paciente: { nome: "Paciente 1" }, especialidade: { nome: "Cardiologia" }, data: "20/05/2026", hora: "14:30" },
+    { id: 2, paciente: { nome: "Paciente 2" }, especialidade: { nome: "Ortopedia" }, data: "21/05/2026", hora: "09:00" },
+    { id: 3, paciente: { nome: "Paciente 3" }, especialidade: { nome: "Clínico Geral" }, data: "22/05/2026", hora: "10:15" },
+  ];
 
-    return (
-        <div className="min-h-screen bg-[#0B1220] pb-20 font-['Sora',_sans-serif]">
-            
-            {/* HEADER DA PÁGINA */}
-            <header className="relative bg-[#111C2E] border-b border-white/5 pt-20 pb-16 mb-12 overflow-hidden">
-                {/* Efeito de luz ambiente ao fundo */}
-                <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-[#3B82F6]/5 to-transparent pointer-events-none" />
-                <div className="absolute -top-24 -right-24 w-96 h-96 bg-[#3B82F6]/5 blur-[120px] rounded-full" />
-                
-                <div className="container mx-auto px-6 relative z-10">
-                    <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
-                        <div className="space-y-4">
-                            <div className="inline-flex items-center gap-2 rounded-full bg-[#3B82F6]/10 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.3em] text-[#3B82F6] border border-[#3B82F6]/20">
-                                <Icon.CircleNotch size={16} className="animate-spin" />
-                                Sistema Live
-                            </div>
-                            <h1 className="text-5xl md:text-6xl font-bold text-[#EAF2FF] tracking-tight">
-                                Painel de <span className="text-[#3B82F6]">Consultas</span>
-                            </h1>
-                            <p className="text-[#EAF2FF]/40 max-w-xl text-lg font-medium">
-                                Gestão em tempo real de agendamentos e pacientes.
-                            </p>
-                        </div>
+  return (
+    <div className="min-h-screen bg-transparent pb-20 font-['Sora',_sans-serif] transition-colors duration-300">
+      {/* ===== HEADER ===== */}
+      <header className="relative pt-20 pb-16 mb-14 overflow-hidden border-b border-[var(--border)] bg-[var(--surface)] shadow-[var(--shadow)]">
+        
+        <div className="absolute inset-0 bg-gradient-to-b from-[var(--accent)]/5 to-transparent pointer-events-none" />
+        <div className="absolute -top-24 -right-24 w-96 h-96 bg-[var(--accent)]/10 blur-[140px] rounded-full opacity-60" />
 
-                        {/* BOTÃO DE AÇÃO PRINCIPAL */}
-                        <button className="group flex items-center justify-center gap-3 bg-[#3B82F6] hover:bg-[#2563EB] text-white font-bold py-5 px-10 rounded-[2rem] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_20px_40px_rgba(59,130,246,0.3)] active:scale-95">
-                            <Icon.PlusCircle size={24} weight="bold" />
-                            <span className="tracking-wide">Novo Agendamento</span>
-                        </button>
-                    </div>
-                </div>
-            </header>
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-10">
+            <div className="space-y-5">
+              
+              <div className="inline-flex items-center gap-2 rounded-full bg-[var(--accent)]/10 px-4 py-1.5 text-[11px] font-black uppercase tracking-[0.3em] text-[var(--accent)] border border-[var(--accent)]/20 shadow-[0_0_18px_rgba(45,212,191,0.15)]">
+                <CircleNotch size={16} className="animate-spin" />
+                Sistema Live
+              </div>
 
-            {/* GRID DE CONTEÚDO */}
-            <main className="container mx-auto px-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                    {/* Mapeamento dos cards estilizados */}
-                    {consultasMock.map((consulta) => (
-                        <CardConsulta key={consulta.id} consulta={consulta} />
-                    ))}
+              <h1 className="text-5xl md:text-6xl font-bold tracking-tight text-[var(--text)]">
+                Painel de{" "}
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#2DD4BF] to-[#00B4D8]">
+                  Consultas
+                </span>
+              </h1>
 
-                    {/* SLOT VAZIO (OPCIONAL: APENAS PARA DESIGN) */}
-                    <div className="border-2 border-dashed border-white/20 rounded-[2.5rem] flex flex-col items-center justify-center p-12 transition-all duration-300 cursor-pointer group hover:bg-white/5 hover:border-[#2DD4BF]/50">
-    <div className="p-4 rounded-full bg-white/10 mb-4 group-hover:scale-110 group-hover:bg-[#2DD4BF]/20 transition-all">
-        {/* Ícone agora brilha em Turquesa no hover */}
-        <Icon.Plus size={32} className="text-white group-hover:text-[#2DD4BF]" />
-    </div>
-    
-    {/* Texto em Branco Puro e nome alterado */}
-    <p className="text-white font-black text-sm uppercase tracking-[0.2em]">
-        Adicionar Consulta
-    </p>
-</div>
-                </div>
-            </main>
+              <p className="max-w-xl text-lg font-medium leading-relaxed text-[var(--muted)]">
+                Gestão em tempo real de{" "}
+                <span className="text-[var(--text)] font-semibold">agendamentos</span>{" "}
+                e{" "}
+                <span className="text-[var(--text)] font-semibold">pacientes</span>.
+              </p>
+            </div>
+
+            <button
+              type="button"
+              className="
+                group relative flex items-center justify-center gap-3
+                rounded-[2rem] px-10 py-5
+                font-black uppercase text-sm text-white
+                bg-gradient-to-r from-[#2DD4BF] to-[#00B4D8]
+                transition-all duration-300
+                hover:scale-[1.05]
+                hover:shadow-[0_12px_45px_rgba(45,212,191,0.45)]
+                active:scale-95
+                overflow-hidden
+              "
+            >
+
+              <span className="absolute inset-0 bg-white/25 scale-0 group-hover:scale-100 transition-transform duration-500 rounded-[2rem] blur-xl" />
+
+              <PlusCircle size={24} weight="bold" className="relative z-10" />
+              <span className="relative z-10 tracking-widest">Novo Agendamento</span>
+            </button>
+          </div>
         </div>
-    )
+      </header>
+
+      <main className="container mx-auto px-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+          {consultasMock.map((consulta) => (
+            <CardConsulta key={consulta.id} consulta={consulta} />
+          ))}
+          
+          <div
+            className="
+              min-h-[420px]
+              rounded-[2.5rem]
+              border-2 border-dashed border-[var(--border)]
+              flex flex-col items-center justify-center
+              cursor-pointer
+              transition-all duration-500
+              group
+              hover:border-[var(--accent)]/50
+              hover:bg-[var(--surface)]
+              hover:shadow-[0_0_40px_rgba(45,212,191,0.15)]
+            "
+          >
+            <div
+              className="
+                p-4 mb-4 rounded-full
+                bg-[var(--surface-2)]
+                transition-all duration-500
+                group-hover:scale-110
+                group-hover:bg-[var(--accent)]/20
+              "
+            >
+              <Plus size={32} className="text-[var(--muted)] group-hover:text-[var(--accent)]" />
+            </div>
+
+            <p className="font-black text-sm uppercase tracking-[0.2em] text-[var(--muted)] group-hover:text-[var(--accent)] transition-colors">
+              Adicionar Consulta
+            </p>
+          </div>
+        </div>
+      </main>
+    </div>
+  );
 }
 
 export default ListaConsultas;
