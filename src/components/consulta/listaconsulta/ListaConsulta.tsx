@@ -32,7 +32,7 @@ function ListaConsultas() {
 
               <h1 className="text-5xl md:text-6xl font-bold tracking-tight text-[var(--text)]">
                 Painel de{" "}
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#2DD4BF] to-[#00B4D8]">
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-[var(--accent)] to-[var(--accent-2)]">
                   Consultas
                 </span>
               </h1>
@@ -51,7 +51,7 @@ function ListaConsultas() {
                 group relative flex items-center justify-center gap-3
                 rounded-[2rem] px-10 py-5
                 font-black uppercase text-sm text-white
-                bg-gradient-to-r from-[#2DD4BF] to-[#00B4D8]
+                bg-gradient-to-r from-[var(--accent)] to-[var(--accent-2)]
                 transition-all duration-300
                 hover:scale-[1.05]
                 hover:shadow-[0_12px_45px_rgba(45,212,191,0.45)]
