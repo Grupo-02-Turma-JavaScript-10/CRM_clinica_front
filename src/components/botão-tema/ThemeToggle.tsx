@@ -24,24 +24,25 @@ function MoonIcon() {
   );
 }
 
+const STORAGE_KEY = "crmed_theme";
+
 export default function ThemeToggle() {
-  const [theme, setTheme] = useState<Theme>("dark");
+  const [theme, setTheme] = useState<Theme>("light");
 
   useEffect(() => {
-    const saved = localStorage.getItem("crmed_theme") as Theme | null;
-    if (saved) return void setTheme(saved);
-
-    const prefersDark =
-      window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
-
-    setTheme(prefersDark ? "dark" : "light");
+    const saved = localStorage.getItem(STORAGE_KEY) as Theme | null;
+    if (saved === "dark" || saved === "light") {
+      setTheme(saved);
+    } else {
+      setTheme("light");
+      localStorage.setItem(STORAGE_KEY, "light");
+    }
   }, []);
 
   useEffect(() => {
-  const root = document.documentElement;
+    const root = document.documentElement;
     root.classList.toggle("theme-dark", theme === "dark");
-    root.classList.toggle("dark", theme === "dark");
-    localStorage.setItem("crmed_theme", theme);
+    localStorage.setItem(STORAGE_KEY, theme);
   }, [theme]);
 
   return (
@@ -50,8 +51,8 @@ export default function ThemeToggle() {
         onClick={() => setTheme((t) => (t === "dark" ? "light" : "dark"))}
         className={[
           "group relative inline-flex items-center gap-2 rounded-2xl",
-          "px-3 py-2",                 
-          "w-fit",                     
+          "px-3 py-2",
+          "w-fit",
           "border border-[var(--border)] bg-[var(--surface)] shadow-[var(--shadow)]",
           "hover:bg-[var(--surface-2)] active:scale-[0.98] transition",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]/70",
@@ -62,20 +63,24 @@ export default function ThemeToggle() {
       >
         <span className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition shadow-[inset_0_0_0_1px_rgba(45,212,191,0.22)]" />
 
-        <span className="relative grid h-8 w-8 place-items-center rounded-2xl" style={{ background: "var(--grad)" }}>
+        <span
+          className="relative grid h-8 w-8 place-items-center rounded-2xl"
+          style={{ background: "var(--grad)" }}
+        >
           <span className="text-white relative h-[18px] w-[18px]">
             <span
               className={[
                 "absolute inset-0 grid place-items-center transition-all duration-300 ease-out",
-                theme === "dark" ? "opacity-100 rotate-0 scale-100" : "opacity-0 -rotate-90 scale-75",
+                theme === "light" ? "opacity-100 rotate-0 scale-100" : "opacity-0 -rotate-90 scale-75",
               ].join(" ")}
             >
               <SunIcon />
             </span>
+
             <span
               className={[
                 "absolute inset-0 grid place-items-center transition-all duration-300 ease-out",
-                theme === "light" ? "opacity-100 rotate-0 scale-100" : "opacity-0 rotate-90 scale-75",
+                theme === "dark" ? "opacity-100 rotate-0 scale-100" : "opacity-0 rotate-90 scale-75",
               ].join(" ")}
             >
               <MoonIcon />

@@ -1,167 +1,100 @@
-import type React from "react";
-import { GithubLogo, LinkedinLogo }  from 'phosphor-react';
+import { useEffect, useMemo, useState } from "react";
+import { NavLink } from "react-router-dom";
 
-import CrmedIcon from "../../assets/crmed-icon.svg";
+import Logo from "../../assets/crmed-icon.svg";
+
+import { isAuthenticated } from "../../utils/Auth";
 
 export default function Footer() {
-  const year = new Date().getFullYear();
+  const [logged, setLogged] = useState<boolean>(isAuthenticated());
+
+  useEffect(() => {
+    const sync = () => setLogged(isAuthenticated());
+
+    sync();
+    window.addEventListener("auth-changed", sync);
+    window.addEventListener("storage", sync);
+
+    return () => {
+      window.removeEventListener("auth-changed", sync);
+      window.removeEventListener("storage", sync);
+    };
+  }, []);
+
+  const links = useMemo(() => {
+    if (!logged) {
+      return [
+        { to: "/", label: "Home" },
+        { to: "/sobrenos", label: "Sobre nós" },
+      ];
+    }
+
+    return [
+      { to: "/", label: "Home" },
+      { to: "/consultas", label: "Consultas" },
+      { to: "/especialidades", label: "Especialidades" },
+      { to: "/sobrenos", label: "Sobre nós" },
+    ];
+  }, [logged]);
 
   return (
-    <footer
-      className="mt-12"
-      style={{
-        borderTop: "1px solid var(--border)",
-        background: "color-mix(in oklab, var(--surface) 92%, transparent)",
-      }}
-    >
-      <div className="mx-auto max-w-6xl px-6 py-8 pb-20">
-        <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-          <div className="flex items-center gap-3">
-            <div
-              className="relative grid place-items-center overflow-hidden"
-              style={{
-                height: 56,
-                width: 56,
-                borderRadius: "18px",
-
-                background: "color-mix(in oklab, var(--surface) 18%, transparent)",
-                backdropFilter: "blur(14px)",
-
-                border: "1px solid color-mix(in oklab, var(--border) 70%, transparent)",
-
-                boxShadow: "var(--shadow)",
-              }}
-              aria-hidden="true"
-            >
-              <span
-                className="pointer-events-none absolute inset-0"
-                style={{
-                  background:
-                    "radial-gradient(60% 70% at 35% 30%, rgba(45,212,191,0.28), transparent 58%)," +
-                    "radial-gradient(70% 70% at 80% 70%, rgba(59,130,246,0.22), transparent 60%)",
-                  opacity: 0.95,
-                }}
-              />
-
-              <span
-                className="pointer-events-none absolute inset-0"
-                style={{
-                  background:
-                    "linear-gradient(180deg, rgba(255,255,255,0.30), rgba(255,255,255,0.02))",
-                  opacity: 0.35,
-                }}
-              />
-
+    <footer className="relative z-10 glass-footer topline">
+      <div className="mx-auto max-w-7xl px-4 md:px-6 py-10">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+          <div className="space-y-2">
+            <div className="flex items-center gap-3">
               <img
-                src={CrmedIcon}
+                src={Logo}
                 alt="CRMed"
+                className="logo-light h-10 w-auto select-none"
                 draggable={false}
-                style={{ height: 38, width: 38, position: "relative" }}
               />
+              <img
+                src={Logo}
+                alt="CRMed"
+                className="logo-dark h-10 w-auto select-none"
+                draggable={false}
+              />
+              <p
+                className="font-extrabold tracking-tight text-[var(--text)] text-lg"
+                style={{ fontFamily: "var(--font-display)" }}
+              >
+                CRM
+                <span className="bg-gradient-to-r from-[var(--accent)] to-[var(--primary)] bg-clip-text text-transparent">
+                  ed
+                </span>{" "}
+                <span className="grad-text">•</span>
+              </p>
             </div>
 
-            <div>
-              <p
-                className="text-sm font-extrabold tracking-tight"
-                style={{ fontFamily: "var(--font-display)", color: "var(--text)" }}
-              >
-                CRM<span className="grad-text">ed</span>
-              </p>
-              <p className="text-xs" style={{ color: "var(--muted)" }}>
-                Agilidade • Organização • Simplicidade
-              </p>
-            </div>
+            <p className="text-sm text-[var(--muted)] max-w-md">
+              Experiência moderna para agendamento e gestão de consultas, com foco em agilidade e clareza.
+            </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3">
-            <FooterLink href="/especialidades">Especialidades</FooterLink>
-            <Dot />
-            <FooterLink href="#termos">Termos</FooterLink>
-            <Dot />
-            <FooterLink href="#contato">Contato</FooterLink>
-
-            <span
-              className="mx-2 hidden h-5 w-px md:inline-block"
-              style={{ background: "var(--border)" }}
-            />
-
-            <IconLink href="https://github.com/" label="GitHub">
-              <GithubLogo size={18} weight="bold" />
-            </IconLink>
-
+          <div className="flex flex-wrap gap-2">
+            {links.map((l) => (
+              <NavLink
+                key={l.to}
+                to={l.to}
+                end={l.to === "/"}
+                className={({ isActive }) => `nav-glass ${isActive ? "nav-glass--active" : ""}`}
+              >
+                <>
+                  <span className="nav-glass-underline" />
+                  {l.label}
+                </>
+              </NavLink>
+            ))}
           </div>
         </div>
 
-        <div className="mt-6 text-xs" style={{ color: "var(--muted)" }}>
-          © {year} CRMed | Todos os direitos reservados.
+        <div className="mt-8 pt-6 border-t border-[var(--border)]/70 flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
+          <p className="text-xs text-[var(--muted)]">
+            © {new Date().getFullYear()} CRMed. Todos os direitos reservados.
+          </p>
         </div>
       </div>
     </footer>
-  );
-}
-
-function FooterLink({
-  href,
-  children,
-}: {
-  href: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <a
-      href={href}
-      className="text-xs"
-      style={{ color: "var(--muted)" }}
-      onMouseEnter={(e) => (e.currentTarget.style.color = "var(--primary)")}
-      onMouseLeave={(e) => (e.currentTarget.style.color = "var(--muted)")}
-    >
-      {children}
-    </a>
-  );
-}
-
-function IconLink({
-  href,
-  label,
-  children,
-}: {
-  href: string;
-  label: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <a
-      href={href}
-      aria-label={label}
-      target="_blank"
-      rel="noreferrer"
-      className="grid h-9 w-9 place-items-center"
-      style={{
-        borderRadius: "12px",
-        border: "1px solid var(--border)",
-        background: "color-mix(in oklab, var(--surface) 82%, transparent)",
-        color: "var(--text)",
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.transform = "translateY(-1px)";
-        e.currentTarget.style.borderColor =
-          "color-mix(in oklab, var(--primary) 35%, var(--border))";
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.transform = "translateY(0px)";
-        e.currentTarget.style.borderColor = "var(--border)";
-      }}
-    >
-      {children}
-    </a>
-  );
-}
-
-function Dot() {
-  return (
-    <span
-      className="inline-block h-1 w-1 rounded-full"
-      style={{ background: "var(--border)" }}
-    />
   );
 }
