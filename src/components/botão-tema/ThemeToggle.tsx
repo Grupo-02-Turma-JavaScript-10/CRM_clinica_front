@@ -38,8 +38,9 @@ export default function ThemeToggle() {
   }, []);
 
   useEffect(() => {
-    const root = document.documentElement;
+  const root = document.documentElement;
     root.classList.toggle("theme-dark", theme === "dark");
+    root.classList.toggle("dark", theme === "dark");
     localStorage.setItem("crmed_theme", theme);
   }, [theme]);
 

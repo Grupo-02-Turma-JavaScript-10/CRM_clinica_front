@@ -1,5 +1,5 @@
 import type React from "react";
-import { GithubLogo, LinkedinLogo } from "@phosphor-icons/react";
+import { GithubLogo, LinkedinLogo }  from 'phosphor-react';
 
 import CrmedIcon from "../../assets/crmed-icon.svg";
 
