@@ -30,7 +30,7 @@ type Member = {
 
 function BadgeTag({ badge }: { badge?: Badge }) {
   if (!badge) return null;
-  const accent = "var(--accent)";
+  const accent = "var(--accent-2)";
 
   return (
     <span
@@ -63,17 +63,17 @@ function TeamCard({ member }: { member: Member }) {
   }, [member.name]);
 
   return (
-    <article className="group relative overflow-hidden rounded-[2.5rem] border border-[var(--accent)]/10 bg-[var(--surface)] transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(45,212,191,0.15)]">
-      <div className="h-1.5 w-full bg-gradient-to-r from-transparent via-[var(--accent)] to-transparent opacity-40 group-hover:opacity-100 transition-opacity" />
+    <article className="group relative overflow-hidden rounded-[2.5rem] border border-[var(--accent-2)]/10 bg-[var(--surface)] transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(45,212,191,0.15)]">
+      <div className="h-1.5 w-full bg-gradient-to-r from-transparent via-[var(--accent-2)] to-transparent opacity-40 group-hover:opacity-100 transition-opacity" />
 
-      <header className="relative h-24 w-full border-b border-[var(--accent)]/5 bg-[var(--surface-2)]/30">
+      <header className="relative h-24 w-full border-b border-[var(--accent-2)]/5 bg-[var(--surface-2)]/30">
         <div className="absolute left-6 top-6">
           <BadgeTag badge={member.badge} />
         </div>
       </header>
 
       <div className="relative px-8 pb-10 flex flex-col items-center">
-        <div className="relative -top-12 h-28 w-28 overflow-hidden rounded-[2.5rem] border-2 border-[var(--accent)] bg-[var(--bg)] shadow-[0_10px_25px_rgba(45,212,191,0.2)] transition-all duration-500 group-hover:scale-110 group-hover:shadow-[0_0_40px_rgba(45,212,191,0.4)]">
+        <div className="relative -top-12 h-28 w-28 overflow-hidden rounded-[2.5rem] border-2 border-[var(--accent-2)] bg-[var(--bg)] shadow-[0_10px_25px_rgba(45,212,191,0.2)] transition-all duration-500 group-hover:scale-110 group-hover:shadow-[0_0_40px_rgba(45,212,191,0.4)]">
           {member.photo && imgOk ? (
             <img
               src={member.photo}
@@ -93,7 +93,7 @@ function TeamCard({ member }: { member: Member }) {
             {member.name}
           </h3>
 
-          <p className="text-[11px] font-black uppercase tracking-[0.2em] text-[var(--accent)] mb-4">
+          <p className="text-[11px] font-black uppercase tracking-[0.2em] text-[var(--accent-2)] mb-4">
             {member.role}
           </p>
 
@@ -106,7 +106,7 @@ function TeamCard({ member }: { member: Member }) {
               href={member.github}
               target="_blank"
               rel="noreferrer"
-              className="p-3 rounded-xl bg-[var(--bg)] border border-[var(--accent)]/10 text-[var(--text)] hover:text-[var(--accent)] hover:border-[var(--accent)]/50 transition-all shadow-sm"
+              className="p-3 rounded-xl bg-[var(--bg)] border border-[var(--accent-2)]/10 text-[var(--text)] hover:text-[var(--accent-2)] hover:border-[var(--accent-2)]/50 transition-all shadow-sm"
             >
               <GithubLogo size={20} weight="bold" />
             </a>
@@ -115,14 +115,14 @@ function TeamCard({ member }: { member: Member }) {
               href={member.linkedin}
               target="_blank"
               rel="noreferrer"
-              className="p-3 rounded-xl bg-[var(--bg)] border border-[var(--accent)]/10 text-[var(--text)] hover:text-[var(--accent)] hover:border-[var(--accent)]/50 transition-all shadow-sm"
+              className="p-3 rounded-xl bg-[var(--bg)] border border-[var(--accent-2)]/10 text-[var(--text)] hover:text-[var(--accent-2)] hover:border-[var(--accent-2)]/50 transition-all shadow-sm"
             >
               <LinkedinLogo size={20} weight="bold" />
             </a>
           </div>
 
           <div className="mt-8 inline-flex items-center gap-2 text-[10px] text-[var(--muted)]/40 uppercase tracking-[0.4em]">
-            <span className="h-1 w-3 rounded-full bg-[var(--accent)]" />
+            <span className="h-1 w-3 rounded-full bg-[var(--accent-2)]" />
             TIME CRMed
           </div>
         </div>
@@ -136,18 +136,18 @@ function FlipCard({ item }: { item: any }) {
     <div className="group h-[320px] w-full [perspective:1000px]">
       <div className="relative h-full w-full transition-all duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)] cursor-pointer">
         {/* FRENTE */}
-        <div className="absolute inset-0 rounded-[2.5rem] border border-[var(--accent)]/10 bg-[var(--surface)] flex flex-col items-center justify-center p-8 text-center [backface-visibility:hidden] shadow-xl">
-          <div className="w-20 h-20 rounded-[1.5rem] bg-[var(--accent)]/10 flex items-center justify-center text-[var(--accent)] mb-6 shadow-[0_10px_20px_rgba(45,212,191,0.1)]">
+        <div className="absolute inset-0 rounded-[2.5rem] border border-[var(--accent-2)]/10 bg-[var(--surface)] flex flex-col items-center justify-center p-8 text-center [backface-visibility:hidden] shadow-xl">
+          <div className="w-20 h-20 rounded-[1.5rem] bg-[var(--accent-2)]/10 flex items-center justify-center text-[var(--accent-2)] mb-6 shadow-[0_10px_20px_rgba(45,212,191,0.1)]">
             {item.icon}
           </div>
           <h3 className="text-2xl font-black text-[var(--text)] uppercase tracking-tighter">
             {item.title}
           </h3>
-          <div className="mt-4 h-1 w-10 bg-[var(--accent)]/40 rounded-full" />
+          <div className="mt-4 h-1 w-10 bg-[var(--accent-2)]/40 rounded-full" />
         </div>
 
         {/* VERSO */}
-        <div className="absolute inset-0 rounded-[2.5rem] border border-[var(--accent)]/30 bg-[var(--bg)] flex items-center justify-center p-10 text-center [transform:rotateY(180deg)] [backface-visibility:hidden] shadow-2xl">
+        <div className="absolute inset-0 rounded-[2.5rem] border border-[var(--accent-2)]/30 bg-[var(--bg)] flex items-center justify-center p-10 text-center [transform:rotateY(180deg)] [backface-visibility:hidden] shadow-2xl">
           <p className="text-lg leading-relaxed text-[var(--text)] font-medium italic">
             "{item.text}"
           </p>
@@ -246,13 +246,13 @@ export function SobrePage() {
     <div className="min-h-screen bg-transparent py-20 transition-colors duration-500">
       <div className="mx-auto w-full max-w-[1200px] px-6">
         <header className="text-center mb-24">
-          <div className="inline-flex items-center gap-2 rounded-full border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-5 py-2 text-[10px] font-black text-[var(--accent)] uppercase tracking-[0.3em] mb-8">
+          <div className="inline-flex items-center gap-2 rounded-full border border-[var(--accent-2)]/30 bg-[var(--accent-2)]/10 px-5 py-2 text-[10px] font-black text-[var(--accent-2)] uppercase tracking-[0.3em] mb-8">
             <UsersThree size={18} weight="bold" />
             Nossa Identidade
           </div>
 
           <h1 className="font-['Sora'] text-5xl md:text-6xl font-black text-[var(--text)] tracking-tighter mb-6">
-            O coração do <span className="text-[var(--accent)]">CRMed</span>
+            O coração do <span className="text-[var(--accent-2)]">CRMed</span>
           </h1>
 
           <p className="max-w-[750px] mx-auto text-lg text-[var(--muted)] leading-relaxed">
@@ -270,9 +270,9 @@ export function SobrePage() {
         <section className="mt-48">
           <div className="flex flex-col items-center mb-20 text-center">
             <h2 className="font-['Sora'] text-4xl font-black text-[var(--text)] uppercase tracking-tighter mb-4">
-              Nosso <span className="text-[var(--accent)]">Propósito</span>
+              Nosso <span className="text-[var(--accent-2)]">Propósito</span>
             </h2>
-            <div className="h-1.5 w-20 bg-[var(--accent)] rounded-full" />
+            <div className="h-1.5 w-20 bg-[var(--accent-2)] rounded-full" />
           </div>
 
           <div className="grid gap-10 md:grid-cols-3">
