@@ -1,9 +1,38 @@
-import { useState } from "react";
+import { useContext, useEffect, useState, type ChangeEvent } from "react";
 import { Eye, EyeOff } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../contexts/AuthContext";
+import type { UsuarioLogin } from "../../models/UsuarioLogin";
+import { isAuthenticated } from "../../utils/Auth";
+import { ClipLoader } from "react-spinners";
 
 
 function Login() {
+  const navigate = useNavigate();
+
+  const {usuario, handleLogin, isLoading} = useContext(AuthContext);
+
+  const [usuarioLogin, setUsuarioLogin] = useState<UsuarioLogin>({} as UsuarioLogin);
+
   const [showPassword, setShowPassword] = useState(false);
+
+  useEffect(()=> {
+    if (isAuthenticated()) {
+      navigate('/home')
+    }
+  }, [usuario])
+
+  function atualizarEstado(e: ChangeEvent<HTMLInputElement>) {
+    setUsuarioLogin({
+      ...usuarioLogin,
+      [e.target.name]: e.target.value,
+    });
+  }
+
+  function logar(e: ChangeEvent<HTMLFormElement>) {
+    e.preventDefault();
+    handleLogin(usuarioLogin);
+  }
 
   return (
     <section
@@ -56,7 +85,7 @@ function Login() {
               Entre com seus dados
             </p>
 
-            <form className="space-y-6">
+            <form className="space-y-6" onSubmit={logar}>
        
               <div>
                 <label
@@ -67,6 +96,7 @@ function Login() {
                 </label>
                 <input
                   type="email"
+                  name="usuario"
                   placeholder="seu@email.com"
                   className="w-full px-4 py-3 rounded-lg border focus:outline-none focus:ring-2"
                   style={{
@@ -76,6 +106,8 @@ function Login() {
                     boxShadow:
                       "0 0 8px rgba(13, 148, 136, 0.4), 0 0 8px rgba(59, 130, 246, 0.4)",
                   }}
+                  value = {usuarioLogin.usuario}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) => atualizarEstado(e)}
                 />
               </div>
 
@@ -90,6 +122,7 @@ function Login() {
                 <div className="relative">
                   <input
                     type={showPassword ? "text" : "password"}
+                    name="senha"
                     placeholder="••••••••"
                     className="w-full px-4 py-3 pr-12 rounded-lg border focus:outline-none focus:ring-2"
                     style={{
@@ -99,6 +132,8 @@ function Login() {
                       boxShadow:
                         "0 0 8px rgba(13, 148, 136, 0.4), 0 0 8px rgba(59, 130, 246, 0.4)",
                     }}
+                    value={usuarioLogin.senha}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => atualizarEstado(e)}
                   />
                   <button
                     type="button"
@@ -154,7 +189,14 @@ function Login() {
                   (e.currentTarget.style.backgroundColor = "#06B6D4")
                 }
               >
-                Entrar
+                {
+                  isLoading ?
+                  <ClipLoader
+                    color="#ffffff"
+                    size={24}
+                  /> :
+                  <span>Entrar</span>
+                }
               </button>
             </form>
           </div>
