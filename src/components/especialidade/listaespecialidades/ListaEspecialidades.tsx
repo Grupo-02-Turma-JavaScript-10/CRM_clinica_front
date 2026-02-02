@@ -11,10 +11,10 @@ function ListaEspecialidades() {
   ]);
 
   return (
-    <div className="min-h-screen bg-transparent p-8 transition-colors duration-500 font-['Sora',_sans-serif]">
+    <div className="min-h-screen bg-transparent p-8 transition-colors duration-500">
       <div className="max-w-7xl mx-auto">
         <header className="mb-12">
-          <h1 className="text-3xl font-black uppercase tracking-tighter mb-2 text-[var(--text)]">
+          <h1 className="text-3xl font-black uppercase tracking-tighter mb-2 text-[var(--text)] font-[var(--font-display)]">
             Especialidades <span className="text-[var(--accent)]">Médicas</span>
           </h1>
           <div className="h-1 w-20 bg-[var(--accent)] rounded-full" />
@@ -48,10 +48,11 @@ function ListaEspecialidades() {
               <Plus size={32} className="text-[var(--muted)] group-hover:text-[var(--accent)]" />
             </div>
 
-            <p className="font-black text-sm uppercase tracking-[0.2em] text-[var(--muted)] group-hover:text-[var(--accent)] transition-colors">
+            <p className="font-black text-sm uppercase tracking-[0.2em] text-[var(--muted)] group-hover:text-[var(--accent)] transition-colors font-[var(--font-sans)]">
               Adicionar Especialidade
             </p>
           </div>
+
           {especialidades.map((especialidade) => (
             <CardEspecialidade key={especialidade.id} especialidade={especialidade} />
           ))}
@@ -60,4 +61,5 @@ function ListaEspecialidades() {
     </div>
   );
 }
+
 export default ListaEspecialidades;
