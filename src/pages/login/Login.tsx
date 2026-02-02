@@ -66,7 +66,7 @@ function Login() {
               >
                 Bem-vindo de volta
               </h2>
-              <p className="text-lg max-w-md" style={{ color: "var(--accent)" }}>
+              <p className="text-lg max-w-md" style={{ color: "var(--text-accent)" }}>
                 Acesse sua conta para continuar.
               </p>
             </div>
@@ -81,7 +81,7 @@ function Login() {
             >
               Login
             </h3>
-            <p className="mb-8" style={{ color: "var(--accent)" }}>
+            <p className="mb-8" style={{ color: "var(--text-accent)" }}>
               Entre com seus dados
             </p>
 
@@ -139,7 +139,7 @@ function Login() {
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-3 top-1/2 -translate-y-1/2"
-                    style={{ color: "var(--accent)" }}
+                    style={{ color: "var(--text-accent)" }}
                   >
                     {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                   </button>
@@ -165,7 +165,7 @@ function Login() {
                 </label>
                 <a
                   href="#"
-                  style={{ color: "var(--accent)" }}
+                  style={{ color: "var(--text-accent-2)" }}
                   className="hover:underline"
                 >
                   Esqueceu a senha?
