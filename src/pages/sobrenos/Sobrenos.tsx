@@ -34,7 +34,7 @@ function BadgeTag({ badge }: { badge?: Badge }) {
 
   return (
     <span
-      className="inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-[10px] font-black tracking-widest uppercase"
+      className="inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-[10px] font-black tracking-widest uppercase font-[var(--font-sans)]"
       style={{
         borderColor: `${accent}44`,
         backgroundColor: `${accent}15`,
@@ -82,22 +82,22 @@ function TeamCard({ member }: { member: Member }) {
               onError={() => setImgOk(false)}
             />
           ) : (
-            <div className="grid h-full w-full place-items-center text-3xl font-black text-[var(--text)]">
+            <div className="grid h-full w-full place-items-center text-3xl font-black text-[var(--text)] font-[var(--font-display)]">
               {initials}
             </div>
           )}
         </div>
 
         <div className="text-center -mt-6">
-          <h3 className="font-['Sora'] text-2xl font-bold tracking-tight text-[var(--text)] mb-1">
+          <h3 className="text-2xl font-bold tracking-tight text-[var(--text)] mb-1 font-[var(--font-display)]">
             {member.name}
           </h3>
 
-          <p className="text-[11px] font-black uppercase tracking-[0.2em] text-[#2DD4BF] mb-4">
+          <p className="text-[11px] font-black uppercase tracking-[0.2em] text-[#2DD4BF] mb-4 font-[var(--font-sans)]">
             {member.role}
           </p>
 
-          <p className="text-sm leading-relaxed text-[var(--muted)] min-h-[60px]">
+          <p className="text-sm leading-relaxed text-[var(--muted)] min-h-[60px] font-[var(--font-sans)]">
             {member.bio}
           </p>
 
@@ -121,7 +121,7 @@ function TeamCard({ member }: { member: Member }) {
             </a>
           </div>
 
-          <div className="mt-8 inline-flex items-center gap-2 text-[10px] text-[var(--muted)]/40 uppercase tracking-[0.4em]">
+          <div className="mt-8 inline-flex items-center gap-2 text-[10px] text-[var(--muted)]/40 uppercase tracking-[0.4em] font-[var(--font-sans)]">
             <span className="h-1 w-3 rounded-full bg-[#2DD4BF]" />
             TIME CRMed
           </div>
@@ -135,20 +135,18 @@ function FlipCard({ item }: { item: any }) {
   return (
     <div className="group h-[320px] w-full [perspective:1000px]">
       <div className="relative h-full w-full transition-all duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)] cursor-pointer">
-        {/* FRENTE */}
         <div className="absolute inset-0 rounded-[2.5rem] border border-[var(--accent)]/10 bg-[var(--surface)] flex flex-col items-center justify-center p-8 text-center [backface-visibility:hidden] shadow-xl">
           <div className="w-20 h-20 rounded-[1.5rem] bg-[#2DD4BF]/10 flex items-center justify-center text-[#2DD4BF] mb-6 shadow-[0_10px_20px_rgba(45,212,191,0.1)]">
             {item.icon}
           </div>
-          <h3 className="text-2xl font-black text-[var(--text)] uppercase tracking-tighter">
+          <h3 className="text-2xl font-black text-[var(--text)] uppercase tracking-tighter font-[var(--font-display)]">
             {item.title}
           </h3>
           <div className="mt-4 h-1 w-10 bg-[#2DD4BF]/40 rounded-full" />
         </div>
 
-        {/* VERSO */}
         <div className="absolute inset-0 rounded-[2.5rem] border border-[#2DD4BF]/30 bg-[var(--bg)] flex items-center justify-center p-10 text-center [transform:rotateY(180deg)] [backface-visibility:hidden] shadow-2xl">
-          <p className="text-lg leading-relaxed text-[var(--text)] font-medium italic">
+          <p className="text-lg leading-relaxed text-[var(--text)] font-medium italic font-[var(--font-sans)]">
             "{item.text}"
           </p>
         </div>
@@ -246,16 +244,16 @@ export function SobrePage() {
     <div className="min-h-screen bg-transparent py-20 transition-colors duration-500">
       <div className="mx-auto w-full max-w-[1200px] px-6">
         <header className="text-center mb-24">
-          <div className="inline-flex items-center gap-2 rounded-full border border-[#2DD4BF]/30 bg-[#2DD4BF]/10 px-5 py-2 text-[10px] font-black text-[#2DD4BF] uppercase tracking-[0.3em] mb-8">
+          <div className="inline-flex items-center gap-2 rounded-full border border-[#2DD4BF]/30 bg-[#2DD4BF]/10 px-5 py-2 text-[10px] font-black text-[#2DD4BF] uppercase tracking-[0.3em] mb-8 font-[var(--font-sans)]">
             <UsersThree size={18} weight="bold" />
             Nossa Identidade
           </div>
 
-          <h1 className="font-['Sora'] text-5xl md:text-6xl font-black text-[var(--text)] tracking-tighter mb-6">
+          <h1 className="text-5xl md:text-6xl font-black text-[var(--text)] tracking-tighter mb-6 font-[var(--font-display)]">
             O coração do <span className="text-[#2DD4BF]">CRMed</span>
           </h1>
 
-          <p className="max-w-[750px] mx-auto text-lg text-[var(--muted)] leading-relaxed">
+          <p className="max-w-[750px] mx-auto text-lg text-[var(--muted)] leading-relaxed font-[var(--font-sans)]">
             Conheça os especialistas dedicados a transformar a gestão em saúde
             através da tecnologia.
           </p>
@@ -269,7 +267,7 @@ export function SobrePage() {
 
         <section className="mt-48">
           <div className="flex flex-col items-center mb-20 text-center">
-            <h2 className="font-['Sora'] text-4xl font-black text-[var(--text)] uppercase tracking-tighter mb-4">
+            <h2 className="text-4xl font-black text-[var(--text)] uppercase tracking-tighter mb-4 font-[var(--font-display)]">
               Nosso <span className="text-[#2DD4BF]">Propósito</span>
             </h2>
             <div className="h-1.5 w-20 bg-[#2DD4BF] rounded-full" />
@@ -285,4 +283,5 @@ export function SobrePage() {
     </div>
   );
 }
+
 export default SobrePage;

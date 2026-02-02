@@ -14,7 +14,7 @@ function ListaConsultas() {
   ];
 
   return (
-    <div className="min-h-screen bg-transparent pb-20 font-['Sora',_sans-serif] transition-colors duration-300">
+    <div className="min-h-screen bg-transparent pb-20 transition-colors duration-300">
       {/* ===== HEADER ===== */}
       <header className="relative pt-20 pb-16 mb-14 overflow-hidden border-b border-[var(--border)] bg-[var(--surface)] shadow-[var(--shadow)]">
         
@@ -25,19 +25,19 @@ function ListaConsultas() {
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-10">
             <div className="space-y-5">
               
-              <div className="inline-flex items-center gap-2 rounded-full bg-[var(--accent)]/10 px-4 py-1.5 text-[11px] font-black uppercase tracking-[0.3em] text-[var(--accent)] border border-[var(--accent)]/20 shadow-[0_0_18px_rgba(45,212,191,0.15)]">
+              <div className="inline-flex items-center gap-2 rounded-full bg-[var(--accent)]/10 px-4 py-1.5 text-[11px] font-black uppercase tracking-[0.3em] text-[var(--accent)] border border-[var(--accent)]/20 shadow-[0_0_18px_rgba(45,212,191,0.15)] font-[var(--font-sans)]">
                 <CircleNotch size={16} className="animate-spin" />
                 Sistema Live
               </div>
 
-              <h1 className="text-5xl md:text-6xl font-bold tracking-tight text-[var(--text)]">
+              <h1 className="text-5xl md:text-6xl font-bold tracking-tight text-[var(--text)] font-[var(--font-display)]">
                 Painel de{" "}
                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#2DD4BF] to-[#00B4D8]">
                   Consultas
                 </span>
               </h1>
 
-              <p className="max-w-xl text-lg font-medium leading-relaxed text-[var(--muted)]">
+              <p className="max-w-xl text-lg font-medium leading-relaxed text-[var(--muted)] font-[var(--font-sans)]">
                 Gestão em tempo real de{" "}
                 <span className="text-[var(--text)] font-semibold">agendamentos</span>{" "}
                 e{" "}
@@ -57,13 +57,15 @@ function ListaConsultas() {
                 hover:shadow-[0_12px_45px_rgba(45,212,191,0.45)]
                 active:scale-95
                 overflow-hidden
+                font-[var(--font-sans)]
               "
             >
-
               <span className="absolute inset-0 bg-white/25 scale-0 group-hover:scale-100 transition-transform duration-500 rounded-[2rem] blur-xl" />
 
               <PlusCircle size={24} weight="bold" className="relative z-10" />
-              <span className="relative z-10 tracking-widest">Novo Agendamento</span>
+              <span className="relative z-10 tracking-widest">
+                Novo Agendamento
+              </span>
             </button>
           </div>
         </div>
@@ -101,7 +103,7 @@ function ListaConsultas() {
               <Plus size={32} className="text-[var(--muted)] group-hover:text-[var(--accent)]" />
             </div>
 
-            <p className="font-black text-sm uppercase tracking-[0.2em] text-[var(--muted)] group-hover:text-[var(--accent)] transition-colors">
+            <p className="font-black text-sm uppercase tracking-[0.2em] text-[var(--muted)] group-hover:text-[var(--accent)] transition-colors font-[var(--font-sans)]">
               Adicionar Consulta
             </p>
           </div>
