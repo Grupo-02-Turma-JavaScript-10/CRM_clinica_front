@@ -169,14 +169,15 @@ export default function Navbar() {
             <>
               <NavLink
                 to="/perfil"
-                className={
-                  `hidden md:inline-flex items-center justify-center ${rightBtnSize} nav-glass ${focusRing} ` +
-                  (isPerfilActive ? "nav-glass--active" : "")
+                className={({ isActive }) =>
+                  `hidden md:inline-flex items-center justify-center ${rightBtnSize} nav-glass ${focusRing} ${
+                    isActive ? "nav-glass--active" : ""
+                  }`
                 }
               >
                 <>
                   <span className="nav-glass-underline" />
-                  Meu Perfil
+                  Perfil
                 </>
               </NavLink>
 

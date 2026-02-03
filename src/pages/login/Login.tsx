@@ -123,20 +123,21 @@ function Login() {
                 </div>
 
            
-                <button
-                  type="submit"
-                  className="
-                    w-full py-3 rounded-lg font-medium
-                    bg-cyan-500 text-[#EAF2FF]
-                    transition-all duration-300
-                    hover:bg-cyan-600
-                    hover:shadow-[0_0_18px_rgba(13,148,136,0.8)]
-                    focus-visible:outline-none
-                    focus-visible:shadow-[0_0_22px_rgba(13,148,136,1)]
-                  "
-                >
-                  Entrar
-                </button>
+               <NavLink
+  to="/perfil"
+  className="
+    w-full py-3 rounded-lg font-medium
+    bg-cyan-500 text-[#EAF2FF]
+    transition-all duration-300
+    hover:bg-cyan-600
+    hover:shadow-[0_0_18px_rgba(13,148,136,0.8)]
+    focus-visible:outline-none
+    focus-visible:shadow-[0_0_22px_rgba(13,148,136,1)]
+    flex items-center justify-center
+  "
+>
+  Entrar
+</NavLink>
               </form>
             </div>
           </div>

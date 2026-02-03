@@ -55,15 +55,9 @@ function App() {
               <Route path="/consultamedico" element={<ConsultaMedico />} />
               <Route path="/consultapaciente" element={<ConsultaPaciente />} />
                <Route path="/editarconsulta" element={<EditarConsulta />} />
+                <Route path="/perfil" element={<Perfil />} />
 
-              <Route
-                path="/perfil"
-                element={
-                  <PrivateRoute>
-                    <Perfil />
-                  </PrivateRoute>
-                }
-              />
+           
 
               <Route path="/sobrenos" element={<Sobrenos />} />
             </Routes>
