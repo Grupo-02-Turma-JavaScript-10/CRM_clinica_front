@@ -1,8 +1,24 @@
+import { api, buscar } from "../services/Service";
+import { ToastAlerta } from "./ToastAlerta";
 
 export const AUTH_TOKEN_KEY = "crmed_token";
 
 export function isAuthenticated(): boolean {
-  return Boolean(localStorage.getItem(AUTH_TOKEN_KEY));
+  const token = localStorage.getItem(AUTH_TOKEN_KEY)
+  if (token) {
+    try {
+      api.get('/especialidade/id/1', {headers: {
+        Authorization: token
+      }});
+      return true;
+    } 
+    catch (error) {
+      ToastAlerta('Sessão expirada!', 'info')
+      clearToken()
+      return false;
+    }
+  }
+  return false;
 }
 
 export function getToken(): string | null {
