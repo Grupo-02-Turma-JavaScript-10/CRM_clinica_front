@@ -1,4 +1,4 @@
-import { createContext, useState, type ReactNode } from "react";
+import { createContext, useState, type ReactNode, useEffect } from "react";
 import type { UsuarioLogin } from "../models/UsuarioLogin";
 import { login } from "../services/Service";
 import { ToastAlerta } from "../utils/ToastAlerta";
@@ -31,11 +31,17 @@ export function AuthProvider({children}: AuthProviderProps) {
 
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
+    // Sempre que o usuario mudar e tiver token, salva no localStorage
+    useEffect(() => {
+        if (usuario.token) {
+            setToken(usuario.token);
+        }
+    }, [usuario]);
+
     async function handleLogin(usuarioLogin: UsuarioLogin) {
         setIsLoading(true)
         try {
-            const token = await login('/medicos/logar', usuarioLogin, setUsuario)
-            setToken(token)
+            await login('/medicos/logar', usuarioLogin, setUsuario)
             ToastAlerta("Login efetuado com sucesso!", "info")
         }
         catch(error: any) {

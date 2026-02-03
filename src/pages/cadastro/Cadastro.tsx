@@ -1,9 +1,110 @@
-import { useState } from "react";
+import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
 import { Eye, EyeOff } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import type { Medico } from "../../models/Medico";
+import type { Especialidade } from "../../models/Especialidade";
+import { buscar, cadastrarUsuario } from "../../services/Service";
+import { ToastAlerta } from "../../utils/ToastAlerta";
+import { enviarFotoPerfil } from "../../services/cloudinary.service";
 
 function Cadastro() {
+  const navigate = useNavigate();
+  const [usuario, setUsuario] = useState<Medico>({} as Medico)
+
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const [confirmarSenha, setConfirmarSenha] = useState<string>('');
+  const [fotoPerfil, setFotoPerfil] = useState<File | null>(null);
+
+  const [especialidade, setEspecialidade] = useState<Especialidade>({} as Especialidade)
+  const [especialidades, setEspecialidades] = useState<Especialidade[]>([])
+
+  async function buscarEspecialidades() {
+    try {
+      await buscar(`/especialidade/all`, setEspecialidades)
+    } catch (error) {
+      ToastAlerta(`Erro ao buscar especialidades.`, 'error')
+      console.error(error)      
+    }
+  }
+
+  async function buscarEspecialidadePorId(id: string) {
+    try {
+      await buscar(`/especialidade/id/${id}`, setEspecialidade)
+    } catch (error) {
+      ToastAlerta(`Erro ao buscar especialidade.`, 'erro')
+      console.error(error)
+    }
+  }
+
+  useEffect(() => {
+    buscarEspecialidades()
+  }, [usuario])
+
+
+  useEffect(()=> {
+    if (usuario.id) {
+      retornar()
+    }
+  }, [usuario]);
+
+  function retornar(){
+    navigate('/')
+  }
+
+  function atualizarEstado(e: ChangeEvent<HTMLInputElement>){
+    setUsuario({
+      ...usuario,
+      [e.target.name]: e.target.value,
+      especialidade: especialidade 
+    });
+  }
+
+  function handleConfirmarSenha(e: ChangeEvent<HTMLInputElement>) {
+    setConfirmarSenha(e.target.value)
+  }
+
+  function handleFotoPerfil(e: ChangeEvent<HTMLInputElement>) {
+    if (e.target.files && e.target.files[0]) {
+      setFotoPerfil(e.target.files[0])
+    }
+  }
+
+  async function cadastrarNovoUsuario(e: FormEvent< HTMLFormElement>) {
+    e.preventDefault()
+
+    if(confirmarSenha === usuario.senha && usuario.senha.length >= 8) {
+      setIsLoading(true)
+
+      try {
+        let urlFoto = '';
+
+        if (fotoPerfil) {
+          urlFoto = await enviarFotoPerfil(fotoPerfil)
+        }
+
+        const usuarioComFoto = {
+          ...usuario,
+          foto: urlFoto,
+          especialidade: especialidade,
+        };
+
+        await cadastrarUsuario('/medicos/cadastrar', usuarioComFoto, setUsuario)
+        ToastAlerta('Cadastro bem-sucedido!', 'sucesso')
+      } catch (error) {
+        ToastAlerta('Erro ao cadastrar usuário!', 'erro')
+        console.error(error)
+      }
+    }
+    else {
+      ToastAlerta('Dados do usuario inconsistentes!', 'erro');
+      setUsuario({...usuario, senha: ''})
+      setConfirmarSenha('')
+    }
+    setIsLoading(false)
+  }
 
   return (
     <section
@@ -46,7 +147,7 @@ function Cadastro() {
               Preencha seus dados para continuar
             </p>
 
-            <form className="space-y-6">
+            <form className="space-y-6" onSubmit={cadastrarNovoUsuario}>
          
               <div>
                 <label 
@@ -73,6 +174,8 @@ function Cadastro() {
                     focus-visible:border-[var(--accent)]
                     focus-visible:shadow-[0_0_18px_var(--accent)]
                   "
+                  value={usuario.nome}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) => atualizarEstado(e)}
                 />
               </div>
 
@@ -101,6 +204,8 @@ function Cadastro() {
                     focus-visible:border-[var(--accent)]
                     focus-visible:shadow-[0_0_18px_var(--accent)]
                   "
+                  value={usuario.dataNasc}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) => atualizarEstado(e)}
                 />
               </div>
 
@@ -130,6 +235,8 @@ function Cadastro() {
                     focus-visible:border-[var(--accent)]
                     focus-visible:shadow-[0_0_18px_var(--accent)]
                   "
+                  value={usuario.usuario}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) => atualizarEstado(e)}
                 />
               </div>
 
@@ -161,6 +268,8 @@ function Cadastro() {
                       focus-visible:border-[var(--accent)]
                       focus-visible:shadow-[0_0_18px_var(--accent)]
                     "
+                    value={usuario.senha}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => atualizarEstado(e)}
                   />
 
                   <button
@@ -201,6 +310,8 @@ function Cadastro() {
                       focus-visible:border-[var(--accent)]
                       focus-visible:shadow-[0_0_18px_var(--accent)]
                     "
+                    value={confirmarSenha}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => handleConfirmarSenha(e)}
                   />
 
                   <button
@@ -216,14 +327,14 @@ function Cadastro() {
             
               <div>
                 <label 
-                  htmlFor="tema"
+                  htmlFor="especialidade"
                   className="block text-sm font-medium mb-1 text-[var(--text)]"
                 >
                   Especialidade
                 </label>
                 <select
-                  id="tema"
-                  name="tema"
+                  id="especialidade"
+                  name="especialidade"
                   className="
                     w-full px-4 py-3 rounded-lg border
                     bg-[var(--bg)] text-[var(--text)]
@@ -237,10 +348,16 @@ function Cadastro() {
                     focus-visible:border-[var(--accent)]
                     focus-visible:shadow-[0_0_18px_var(--accent)]
                   "
+                  onChange={(e) => buscarEspecialidadePorId(e.currentTarget.value)}
                 >
                   <option value="" disabled selected>
                     Selecione uma Especialidade
                   </option>
+                  {especialidades.map((especialidade) => (
+                    <>
+                      <option value={especialidade.id}>{especialidade.nome}</option>
+                    </>
+                  ))}
                 </select>
               </div>
 
@@ -278,6 +395,7 @@ function Cadastro() {
                     file:transition-all file:duration-300
                     hover:file:bg-cyan-600
                   "
+                  onChange={handleFotoPerfil}
                 />
               </div>
 
@@ -296,7 +414,7 @@ function Cadastro() {
                "
                >
                Criar conta
-                  </button>
+               </button>
 
             </form>
           </div>

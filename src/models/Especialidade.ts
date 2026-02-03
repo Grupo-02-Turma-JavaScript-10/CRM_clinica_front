@@ -4,6 +4,6 @@ import type { Medico } from "./Medico";
 export interface Especialidade {
     id: number;
     nome: string;
-    medico: Medico[];
-    consulta: Consulta;
+    medico?: Medico[];
+    consulta?: Consulta[];
 }

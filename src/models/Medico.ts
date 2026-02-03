@@ -4,9 +4,10 @@ import type { Especialidade } from "./Especialidade";
 export interface Medico {
     id: number;
     nome: string;
+    dataNasc: string;
     usuario: string;
     senha: string;
     foto: string;
-    consulta: Consulta[];
-    especialidade: Especialidade;
+    consulta?: Consulta[];
+    especialidade?: Especialidade;
 }
