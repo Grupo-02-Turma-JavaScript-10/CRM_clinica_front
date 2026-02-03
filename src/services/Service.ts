@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-    baseURL: 'http://localhost:4000'
+    baseURL: 'https://crmed.onrender.com'
 });
 
 export const cadastrarUsuario = async(url:string, dados: object, setDados:Function) =>{
@@ -10,8 +10,15 @@ export const cadastrarUsuario = async(url:string, dados: object, setDados:Functi
 }
 
 export const login = async(url:string, dados: object, setDados:Function) =>{
-   const resposta = await api.post(url,dados)
-   setDados(resposta.data)
+    try {
+        const resposta = await api.post(url,dados)
+        setDados(resposta.data)
+        return resposta.data.token
+   }
+   catch(error: any) {
+        console.error(error);
+        throw error;
+   }
 }
 
 export const buscar = async (url: string, setDados: Function, header: Object) => {
