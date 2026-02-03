@@ -22,6 +22,7 @@ import DeletarConsulta from "./components/consulta/deletarconsulta/DeletarConsul
 
 import ConstelacaoBackground from "./components/background/ConstelacaoBackground";
 import { AuthProvider } from "./contexts/AuthContext";
+import ConsultaPaciente from "./components/consulta/formconsulta/ConsultaPaciente";
 
 function App() {
   return (
@@ -46,7 +47,7 @@ function App() {
                 <Route path="/deletarespecialidade/:id" element={<DeletarEspecialidade />} />
 
                 <Route path="/consultas" element={<ListaConsulta />} />
-                <Route path="/cadastrarconsulta" element={<FormConsulta />} />
+                <Route path="/marcarconsulta/:role" element={<FormConsulta />} />
                 <Route path="/editarconsulta/:id" element={<FormConsulta />} />
                 <Route path="/deletarconsulta/:id" element={<DeletarConsulta />} />
 
