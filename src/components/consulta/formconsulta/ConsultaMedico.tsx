@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { CalendarPlus, CheckCircle } from "@phosphor-icons/react";
 
-function Agendamento() {
+function ConsultaMedico() {
   const [pacienteInput, setPacienteInput] = useState("");
   const [mostrarSugestoes, setMostrarSugestoes] = useState(false);
 
@@ -141,4 +141,4 @@ function Agendamento() {
   );
 }
 
-export default Agendamento;
+export default ConsultaMedico;

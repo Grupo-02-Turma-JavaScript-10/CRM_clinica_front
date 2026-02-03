@@ -47,7 +47,7 @@ function App() {
                 <Route path="/deletarespecialidade/:id" element={<DeletarEspecialidade />} />
 
                 <Route path="/consultas" element={<ListaConsulta />} />
-                <Route path="/marcarconsulta/:role" element={<FormConsulta />} />
+                <Route path="/marcarconsulta" element={<FormConsulta />} />
                 <Route path="/editarconsulta/:id" element={<FormConsulta />} />
                 <Route path="/deletarconsulta/:id" element={<DeletarConsulta />} />
 
