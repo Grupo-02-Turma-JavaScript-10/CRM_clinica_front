@@ -112,7 +112,8 @@ function CardConsulta({ consulta }: CardConsultaProps) {
 
       <div className="flex border-t border-[var(--accent)]/10 bg-[var(--surface-2)]/30 relative z-10">
         <Link
-          to={`/editarConsulta/${consulta?.id}`}
+          to="/editarconsulta"
+          
           className="
             flex-1 flex items-center justify-center gap-2 py-5
             text-[11px] font-black uppercase tracking-widest

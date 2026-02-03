@@ -109,9 +109,49 @@ export default function Navbar() {
               >
                 <>
                   <span className="nav-glass-underline" />
-                  Login
+                  Login do medico
                 </>
               </NavLink>
+
+
+
+
+
+              <NavLink
+                to="/consultamedico"
+                className={({ isActive }) =>
+                  `hidden md:inline-flex items-center justify-center ${rightBtnSize} nav-glass ${focusRing} ${
+                    isActive ? "nav-glass--active" : ""
+                  }`
+                }
+              >
+                <>
+                  <span className="nav-glass-underline" />
+                  Consulta medico
+                </>
+              </NavLink>
+
+
+
+              
+              <NavLink
+                to="/consultapaciente"
+                className={({ isActive }) =>
+                  `hidden md:inline-flex items-center justify-center ${rightBtnSize} nav-glass ${focusRing} ${
+                    isActive ? "nav-glass--active" : ""
+                  }`
+                }
+              >
+                <>
+                  <span className="nav-glass-underline" />
+                  Consulta paciente
+                </>
+              </NavLink>
+
+              
+              
+
+
 
               <NavLink
                 to="/cadastro"
@@ -122,7 +162,7 @@ export default function Navbar() {
                   focusRing
                 }
               >
-                Cadastro
+                Cadastro medico
               </NavLink>
             </>
           ) : (
@@ -241,7 +281,7 @@ export default function Navbar() {
                       focusRing
                     }
                   >
-                    Cadastro
+                    Cadastro de medico
                   </NavLink>
                 </>
               ) : (

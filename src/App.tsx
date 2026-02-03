@@ -17,10 +17,14 @@ import FormEspecialidade from "./components/especialidade/formespacialidade/Form
 import DeletarEspecialidade from "./components/especialidade/deletarespecialidade/DeletarEspecialidade";
 
 import ListaConsulta from "./components/consulta/listaconsulta/ListaConsulta";
-import FormConsulta from "./components/consulta/formconsulta/FormConsulta";
+import FormConsulta from "./components/consulta/formconsulta/ConsultaPaciente";
 import DeletarConsulta from "./components/consulta/deletarconsulta/DeletarConsulta";
 
 import ConstelacaoBackground from "./components/background/ConstelacaoBackground";
+
+import ConsultaPaciente from "./components/consulta/formconsulta/ConsultaPaciente";
+import ConsultaMedico from "./components/consulta/formconsulta/ConsultaMedico";
+import EditarConsulta from "./components/consulta/formconsulta/EditarConsulta";
 
 function App() {
   return (
@@ -47,6 +51,10 @@ function App() {
               <Route path="/cadastrarconsulta" element={<FormConsulta />} />
               <Route path="/editarconsulta/:id" element={<FormConsulta />} />
               <Route path="/deletarconsulta/:id" element={<DeletarConsulta />} />
+
+              <Route path="/consultamedico" element={<ConsultaMedico />} />
+              <Route path="/consultapaciente" element={<ConsultaPaciente />} />
+               <Route path="/editarconsulta" element={<EditarConsulta />} />
 
               <Route
                 path="/perfil"

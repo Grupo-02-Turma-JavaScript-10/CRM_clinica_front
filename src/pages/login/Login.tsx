@@ -6,83 +6,62 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <section
-      className="min-h-screen flex items-center justify-center px-6 relative"
-      style={{ backgroundColor: "var(--bg)" }}
-    >
-      <div
-        className="w-full max-w-6xl rounded-3xl overflow-hidden shadow-xl"
-        style={{
-          backgroundColor: "var(--surface)",
-          boxShadow:
-            "0 0 25px rgba(13, 148, 136, 0.5), 0 0 25px rgba(59, 130, 246, 0.5)",
-        }}
-      >
-        <div className="grid grid-cols-1 md:grid-cols-2">
-          <div className="relative hidden md:block">
-            <img
-              src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d"
-              alt="Pessoa trabalhando"
-              className="absolute inset-0 w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-[var(--surface)]/80 flex flex-col justify-center p-12">
-              <h2 className="text-4xl font-semibold mb-6 leading-tight font-[var(--font-display)] text-[var(--text)]">
-                Bem-vindo de volta
-              </h2>
-              <p className="text-lg max-w-md font-[var(--font-sans)] text-[var(--accent)]">
-                Acesse sua conta para continuar.
-              </p>
-            </div>
-          </div>
+    <section className="min-h-screen bg-transparent pt-24 pb-20 px-6 font-[var(--font-sans)]">
+      <div className="container mx-auto max-w-6xl">
+       
+        <div
+          className="
+            relative overflow-hidden
+            rounded-[2.5rem]
+            border border-[var(--accent)]/10
+            transition-all duration-500
+          "
+          style={{
+            boxShadow:
+              "0 0 25px rgba(13,148,136,0.5), 0 0 25px rgba(59,130,246,0.5)",
+          }}
+        >
+          <div className="grid grid-cols-1 md:grid-cols-2 relative z-10">
+            
+            <div className="relative hidden md:block">
+              <img
+                src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d"
+                alt="Pessoa trabalhando"
+                className="absolute inset-0 w-full h-full object-cover"
+              />
 
-          <div className="p-8 sm:p-12 flex flex-col justify-center">
-            <h3 className="text-2xl font-semibold mb-2 font-[var(--font-display)] text-[var(--text)]">
-              Login
-            </h3>
-            <p className="mb-8 font-[var(--font-sans)] text-[var(--accent)]">
-              Entre com seus dados
-            </p>
-
-            <form className="space-y-6">
-             
-              <div>
-                <label className="block text-sm font-medium mb-1 font-[var(--font-sans)] text-[var(--text)]">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  placeholder="seu@email.com"
-                  className="
-                    w-full px-4 py-3 rounded-lg border
-                    font-[var(--font-sans)]
-                    bg-[var(--bg)] text-[var(--text)]
-                    border-[var(--border)]
-                    transition-all duration-300
-
-                    hover:border-[var(--accent)]
-                    hover:shadow-[0_0_14px_var(--accent)]
-
-                    focus-visible:outline-none
-                    focus-visible:border-[var(--accent)]
-                    focus-visible:shadow-[0_0_18px_var(--accent)]
-                  "
-                />
+              <div className="absolute inset-0 bg-black/40 flex flex-col justify-center p-12">
+                <h2 className="text-4xl font-semibold mb-6 leading-tight text-white">
+                  Bem-vindo de volta
+                </h2>
+                <p className="text-lg max-w-md text-cyan-300">
+                  Acesse sua conta para continuar.
+                </p>
               </div>
+            </div>
 
-           
-              <div>
-                <label className="block text-sm font-medium mb-1 font-[var(--font-sans)] text-[var(--text)]">
-                  Senha
-                </label>
-                <div className="relative">
+          
+            <div className="p-8 sm:p-12 bg-[var(--surface)]">
+              <h3 className="text-3xl font-bold text-[var(--text)] mb-1">
+                Login
+              </h3>
+              <p className="mb-8 text-[var(--muted)]">
+                Entre com seus dados
+              </p>
+
+              <form className="space-y-6">
+             
+                <div>
+                  <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[var(--accent)] ml-2 mb-3 block">
+                    Email
+                  </label>
                   <input
-                    type={showPassword ? "text" : "password"}
-                    placeholder="••••••••"
+                    type="email"
+                    placeholder="seu@email.com"
                     className="
-                      w-full px-4 py-3 pr-12 rounded-lg border
-                      font-[var(--font-sans)]
-                      bg-[var(--bg)] text-[var(--text)]
-                      border-[var(--border)]
+                      w-full bg-[var(--bg)] border border-[var(--accent)]/20
+                      rounded-2xl p-4
+                      text-[var(--text)]
                       transition-all duration-300
 
                       hover:border-[var(--accent)]
@@ -93,47 +72,73 @@ function Login() {
                       focus-visible:shadow-[0_0_18px_var(--accent)]
                     "
                   />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--accent)]"
-                  >
-                    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                  </button>
                 </div>
-              </div>
 
-              <div className="flex items-center justify-between text-sm font-[var(--font-sans)]">
-                <a href="#" className="hover:underline text-[var(--accent)]">
-                  Esqueceu a senha?
-                </a>
+             
+                <div>
+                  <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[var(--accent)] ml-2 mb-3 block">
+                    Senha
+                  </label>
 
-                <NavLink
-                  to="/cadastro"
-                  className="hover:underline text-[var(--accent)] font-[var(--font-sans)]"
+                  <div className="relative">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      placeholder="••••••••"
+                      className="
+                        w-full bg-[var(--bg)] border border-[var(--accent)]/20
+                        rounded-2xl p-4 pr-12
+                        text-[var(--text)]
+                        transition-all duration-300
+
+                        hover:border-[var(--accent)]
+                        hover:shadow-[0_0_14px_var(--accent)]
+
+                        focus-visible:outline-none
+                        focus-visible:border-[var(--accent)]
+                        focus-visible:shadow-[0_0_18px_var(--accent)]
+                      "
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-[var(--accent)]"
+                    >
+                      {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                    </button>
+                  </div>
+                </div>
+
+               
+                <div className="flex justify-between text-sm">
+                  <a href="#" className="text-[var(--accent)] hover:underline">
+                    Esqueceu a senha?
+                  </a>
+
+                  <NavLink
+                    to="/cadastro"
+                    className="text-[var(--accent)] hover:underline"
+                  >
+                    Cadastre-se
+                  </NavLink>
+                </div>
+
+           
+                <button
+                  type="submit"
+                  className="
+                    w-full py-3 rounded-lg font-medium
+                    bg-cyan-500 text-[#EAF2FF]
+                    transition-all duration-300
+                    hover:bg-cyan-600
+                    hover:shadow-[0_0_18px_rgba(13,148,136,0.8)]
+                    focus-visible:outline-none
+                    focus-visible:shadow-[0_0_22px_rgba(13,148,136,1)]
+                  "
                 >
-                  Cadastre-se
-                </NavLink>
-              </div>
-
-             <button
-  type="submit"
-  className="
-    w-full py-3 rounded-lg font-medium font-[var(--font-sans)]
-    bg-cyan-500 text-[#EAF2FF]
-    transition-all duration-300 shadow-md
-
-    hover:bg-cyan-600
-    hover:shadow-[0_0_18px_rgba(13,148,136,0.8)]
-
-    focus-visible:outline-none
-    focus-visible:shadow-[0_0_22px_rgba(13,148,136,1)]
-  "
->
-  Entrar
-</button>
-
-            </form>
+                  Entrar
+                </button>
+              </form>
+            </div>
           </div>
         </div>
       </div>
