@@ -3,6 +3,7 @@ import { Eye, EyeOff } from "lucide-react";
 
 function Cadastro() {
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   return (
     <section
@@ -48,12 +49,17 @@ function Cadastro() {
             <form className="space-y-6">
          
               <div>
-                <label className="block text-sm font-medium mb-1 text-[var(--text)]">
-                  Nome
+                <label 
+                  htmlFor="nome"
+                  className="block text-sm font-medium mb-1 text-[var(--text)]"
+                >
+                  Nome Completo
                 </label>
                 <input
                   type="text"
-                  placeholder="Seu nome"
+                  id="nome"
+                  name="nome"
+                  placeholder="Digite seu nome completo"
                   className="
                     w-full px-4 py-3 rounded-lg border
                     bg-[var(--bg)] text-[var(--text)]
@@ -72,36 +78,45 @@ function Cadastro() {
 
              
               <div>
-                <label className="block text-sm font-medium mb-1 text-[var(--text)]">
+                <label 
+                  htmlFor="dataNasc"
+                  className="block text-sm font-medium mb-1 text-[var(--text)]"
+                >
+                  Data de Nascimento
+                </label>
+                <input
+                  type="date"
+                  id="dataNasc"
+                  name="dataNasc"
+                  className="
+                    w-full px-4 py-3 rounded-lg border
+                    bg-[var(--bg)] text-[var(--text)]
+                    border-[var(--border)]
+                    transition-all duration-300
+
+                    hover:border-[var(--accent)]
+                    hover:shadow-[0_0_14px_var(--accent)]
+
+                    focus-visible:outline-none
+                    focus-visible:border-[var(--accent)]
+                    focus-visible:shadow-[0_0_18px_var(--accent)]
+                  "
+                />
+              </div>
+
+             
+              <div>
+                <label 
+                  htmlFor="usuario"
+                  className="block text-sm font-medium mb-1 text-[var(--text)]"
+                >
                   Email
                 </label>
                 <input
                   type="email"
-                  placeholder="Seu melhor email"
-                  className="
-                    w-full px-4 py-3 rounded-lg border
-                    bg-[var(--bg)] text-[var(--text)]
-                    border-[var(--border)]
-                    transition-all duration-300
-
-                    hover:border-[var(--accent)]
-                    hover:shadow-[0_0_14px_var(--accent)]
-
-                    focus-visible:outline-none
-                    focus-visible:border-[var(--accent)]
-                    focus-visible:shadow-[0_0_18px_var(--accent)]
-                  "
-                />
-              </div>
-
-             
-              <div>
-                <label className="block text-sm font-medium mb-1 text-[var(--text)]">
-                  Usuário
-                </label>
-                <input
-                  type="text"
-                  placeholder="Nome de usuário"
+                  id="usuario"
+                  name="usuario"
+                  placeholder="seu.email@exemplo.com"
                   className="
                     w-full px-4 py-3 rounded-lg border
                     bg-[var(--bg)] text-[var(--text)]
@@ -120,13 +135,18 @@ function Cadastro() {
 
            
               <div>
-                <label className="block text-sm font-medium mb-1 text-[var(--text)]">
+                <label 
+                  htmlFor="senha"
+                  className="block text-sm font-medium mb-1 text-[var(--text)]"
+                >
                   Senha
                 </label>
 
                 <div className="relative">
                   <input
                     type={showPassword ? "text" : "password"}
+                    id="senha"
+                    name="senha"
                     placeholder="••••••••"
                     className="
                       w-full px-4 py-3 pr-12 rounded-lg border
@@ -146,7 +166,7 @@ function Cadastro() {
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--accent)]"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--accent)] hover:text-[var(--text)] transition-colors"
                   >
                     {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                   </button>
@@ -155,11 +175,55 @@ function Cadastro() {
 
             
               <div>
-                <label className="block text-sm font-medium mb-1 text-[var(--text)]">
-                  Foto
+                <label 
+                  htmlFor="confirmarSenha"
+                  className="block text-sm font-medium mb-1 text-[var(--text)]"
+                >
+                  Confirmar Senha
                 </label>
-                <input
-                  type="file"
+
+                <div className="relative">
+                  <input
+                    type={showConfirmPassword ? "text" : "password"}
+                    id="confirmarSenha"
+                    name="confirmarSenha"
+                    placeholder="••••••••"
+                    className="
+                      w-full px-4 py-3 pr-12 rounded-lg border
+                      bg-[var(--bg)] text-[var(--text)]
+                      border-[var(--border)]
+                      transition-all duration-300
+
+                      hover:border-[var(--accent)]
+                      hover:shadow-[0_0_14px_var(--accent)]
+
+                      focus-visible:outline-none
+                      focus-visible:border-[var(--accent)]
+                      focus-visible:shadow-[0_0_18px_var(--accent)]
+                    "
+                  />
+
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--accent)] hover:text-[var(--text)] transition-colors"
+                  >
+                    {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                  </button>
+                </div>
+              </div>
+
+            
+              <div>
+                <label 
+                  htmlFor="tema"
+                  className="block text-sm font-medium mb-1 text-[var(--text)]"
+                >
+                  Especialidade
+                </label>
+                <select
+                  id="tema"
+                  name="tema"
                   className="
                     w-full px-4 py-3 rounded-lg border
                     bg-[var(--bg)] text-[var(--text)]
@@ -167,11 +231,52 @@ function Cadastro() {
                     transition-all duration-300
 
                     hover:border-[var(--accent)]
-                    hover:shadow-[0_0_12px_var(--accent)]
+                    hover:shadow-[0_0_14px_var(--accent)]
 
                     focus-visible:outline-none
                     focus-visible:border-[var(--accent)]
-                    focus-visible:shadow-[0_0_16px_var(--accent)]
+                    focus-visible:shadow-[0_0_18px_var(--accent)]
+                  "
+                >
+                  <option value="" disabled selected>
+                    Selecione uma Especialidade
+                  </option>
+                </select>
+              </div>
+
+              {/* Foto de perfil */}
+              <div>
+                <label 
+                  htmlFor="foto"
+                  className="block text-sm font-medium mb-1 text-[var(--text)]"
+                >
+                  Foto de Perfil
+                </label>
+                <input
+                  type="file"
+                  id="foto"
+                  name="foto"
+                  accept="image/*"
+                  className="
+                    w-full px-4 py-3 rounded-lg border
+                    bg-[var(--bg)] text-[var(--text)]
+                    border-[var(--border)]
+                    transition-all duration-300
+
+                    hover:border-[var(--accent)]
+                    hover:shadow-[0_0_14px_var(--accent)]
+
+                    focus-visible:outline-none
+                    focus-visible:border-[var(--accent)]
+                    focus-visible:shadow-[0_0_18px_var(--accent)]
+
+                    file:mr-4 file:py-2 file:px-4
+                    file:rounded-lg file:border-0
+                    file:text-sm file:font-medium
+                    file:bg-cyan-500 file:text-[#EAF2FF]
+                    file:cursor-pointer
+                    file:transition-all file:duration-300
+                    hover:file:bg-cyan-600
                   "
                 />
               </div>
