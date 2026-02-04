@@ -19,6 +19,7 @@ interface AuthProviderProps {
 export const AuthContext = createContext({} as AuthContextProps)
 
 export function AuthProvider({children}: AuthProviderProps) {
+
     const noSection = {
         id: 0,
         nome: '',
@@ -69,7 +70,7 @@ export function AuthProvider({children}: AuthProviderProps) {
         restoreSession();
     }, []);
 
-    async function handleLogin(usuarioLogin: UsuarioLogin) {
+    async function handleLogin(usuarioLogin: UsuarioLogin): Promise<void> {
         setIsLoading(true)
         try {
             await login('/medicos/logar', usuarioLogin, setUsuario)
@@ -77,8 +78,10 @@ export function AuthProvider({children}: AuthProviderProps) {
         }
         catch(error: any) {
             ToastAlerta("Os Dados do usuário estão inconsistentes!", "erro")
+            throw error;
+        } finally {
+            setIsLoading(false)
         }
-        setIsLoading(false)
     }
 
     function handleLogout() {
