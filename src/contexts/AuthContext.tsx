@@ -42,31 +42,49 @@ export function AuthProvider({children}: AuthProviderProps) {
         }
     }, [usuario]);
 
-    // Restaura a sessão ao carregar a aplicação
     useEffect(() => {
         async function restoreSession() {
             const token = localStorage.getItem('crmed_token');
-            if (token && usuario.id === 0) {
-                setIsLoading(true);
+
+            if (!token) {
+                setIsLoading(false);
+                return;
+            }
+
+            if (usuario.id === 0) {
                 try {
+                    console.log("Tentando restaurar sessão com token:", token);
+                    
                     const response = await fetch('https://crmed.onrender.com/medicos/me', {
                         headers: {
                             'Authorization': token
                         }
                     });
                     
+                    console.log("Status da resposta:", response.status);
+
                     if (response.ok) {
                         const userData = await response.json();
+                        console.log("Dados recebidos:", userData);
                         setUsuario({ ...userData, token });
                     } else {
-                        clearToken();
+                        console.error("token rejeitado:", response.statusText);
+
+                        if (response.status === 401 || response.status === 403) {
+                            alert("Sessão expirada. Faça login novamente.");
+                            handleLogout();
+                        }
                     }
                 } catch (error) {
-                    clearToken();
+                    console.error("Erro CRÍTICO na restauração:", error);
+                } finally {
+                    setIsLoading(false);
                 }
-                setIsLoading(false);
+            } else {
+                 setIsLoading(false);
             }
         }
+
         restoreSession();
     }, []);
 
