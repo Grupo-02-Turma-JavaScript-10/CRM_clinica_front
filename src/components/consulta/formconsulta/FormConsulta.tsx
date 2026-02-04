@@ -9,6 +9,7 @@ import ConsultaMedico from "./ConsultaMedico";
 import ConsultaPaciente from "./ConsultaPaciente";
 
 function FormConsulta() {
+  
   return(
     <>
       {
