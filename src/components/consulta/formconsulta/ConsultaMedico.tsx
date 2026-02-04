@@ -35,7 +35,7 @@ function ConsultaMedico() {
   return (
     <div className="min-h-screen bg-transparent pt-24 pb-20 px-6 transition-colors duration-500 font-[var(--font-sans)]">
       <div className="container mx-auto max-w-2xl">
-        {/* Cabeçalho */}
+       
         <div className="text-center mb-10 space-y-2">
           <div className="inline-flex items-center justify-center p-3 rounded-2xl bg-[var(--accent)]/10 text-[var(--accent)] mb-4 shadow-lg shadow-[var(--accent)]/5">
             <CalendarPlus size={32} weight="bold" />
@@ -49,7 +49,6 @@ function ConsultaMedico() {
             Preencha os dados da consulta para continuar.
           </p>
         </div>
-
 
         <form
           className="bg-[var(--surface)] p-10 rounded-[2.5rem] border border-[var(--accent)]/10 relative overflow-hidden transition-all duration-500 font-[var(--font-sans)]"
@@ -92,7 +91,25 @@ function ConsultaMedico() {
               </div>
             </div>
 
-          
+            
+            <div className="flex flex-col">
+              <label className={labelStyle}>Data de Nascimento</label>
+              <input type="date" className={inputStyle} />
+            </div>
+
+           
+            <div className="flex flex-col">
+              <label className={labelStyle}>Telefone</label>
+              <input type="tel" placeholder="(XX) XXXXX-XXXX" className={inputStyle} />
+            </div>
+
+           
+            <div className="flex flex-col">
+              <label className={labelStyle}>E-mail</label>
+              <input type="email" placeholder="exemplo@email.com" className={inputStyle} />
+            </div>
+
+           
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="flex flex-col">
                 <label className={labelStyle}>Data da Consulta</label>
@@ -105,7 +122,7 @@ function ConsultaMedico() {
               </div>
             </div>
 
-        
+            
             <div className="flex flex-col">
               <label className={labelStyle}>Descrição dos Sintomas</label>
               <textarea
@@ -115,7 +132,7 @@ function ConsultaMedico() {
               />
             </div>
 
- 
+           
             <div className="pt-4">
               <button
                 type="submit"
