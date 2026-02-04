@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { CalendarPlus, CaretDown, CheckCircle } from "@phosphor-icons/react";
+import { cadastrar } from "../../../services/Service";
 
 function ConsultaPaciente() {
   const [pacienteInput, setPacienteInput] = useState("");
@@ -7,6 +8,18 @@ function ConsultaPaciente() {
 
   const [especialidadeSelecionada, setEspecialidadeSelecionada] = useState("");
   const [medicoSelecionado, setMedicoSelecionado] = useState("");
+
+
+  const [dataNascimento, setDataNascimento] = useState("");
+  const [telefone, setTelefone] = useState("");
+  const [email, setEmail] = useState("");
+  const [dataConsulta, setDataConsulta] = useState("");
+  const [horario, setHorario] = useState("");
+  const [sintomas, setSintomas] = useState("");
+
+  const [erro, setErro] = useState("");
+  const [sucesso, setSucesso] = useState("");
+  const [carregando, setCarregando] = useState(false);  
 
   const medicos = [
     { nome: "Dr. João Silva", especialidade: "Cardiologia" },
@@ -42,6 +55,80 @@ function ConsultaPaciente() {
     (m) => m.especialidade === especialidadeSelecionada
   );
 
+  function validarEmail(value: string) {
+    return /\S+@\S+\.\S+/.test(value);
+  }
+
+  function validarTelefone(value: string) {
+    return /^\(\d{2}\) \d{4,5}-\d{4}$/.test(value);
+  }
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setErro("");
+    setSucesso("");
+
+    if (
+      !especialidadeSelecionada ||
+      !medicoSelecionado ||
+      !pacienteInput ||
+      !dataNascimento ||
+      !telefone ||
+      !email ||
+      !dataConsulta ||
+      !horario
+    ) {
+      setErro("Preencha todos os campos obrigatórios.");
+      return;
+    }
+
+    if (!validarEmail(email)) {
+      setErro("Email inválido.");
+      return;
+    }
+
+    if (!validarTelefone(telefone)) {
+      setErro("Telefone inválido. Use (XX) XXXXX-XXXX");
+      return;
+    }
+
+    try {
+      setCarregando(true);
+
+      const consulta = {
+        especialidade: especialidadeSelecionada,
+        medico: medicoSelecionado,
+        paciente: pacienteInput,
+        dataNascimento,
+        telefone,
+        email,
+        dataConsulta,
+        horario,
+        sintomas,
+      };
+
+      await cadastrar("/consultas", consulta, () => {}, {});
+
+      setSucesso("Consulta agendada com sucesso!");
+
+      // limpar tudo
+      setEspecialidadeSelecionada("");
+      setMedicoSelecionado("");
+      setPacienteInput("");
+      setDataNascimento("");
+      setTelefone("");
+      setEmail("");
+      setDataConsulta("");
+      setHorario("");
+      setSintomas("");
+    } catch {
+      setErro("Erro ao agendar consulta.");
+    } finally {
+      setCarregando(false);
+    }
+  }
+
+
   return (
     <div className="min-h-screen bg-transparent pt-24 pb-20 px-6 font-[var(--font-sans)]">
       <div className="container mx-auto max-w-2xl">
@@ -60,6 +147,7 @@ function ConsultaPaciente() {
         </div>
 
         <form
+          onSubmit={handleSubmit}
           className="bg-[var(--surface)] p-10 rounded-[2.5rem] border border-[var(--accent)]/10 space-y-6"
           style={{
             boxShadow:
@@ -160,30 +248,54 @@ function ConsultaPaciente() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="flex flex-col">
               <label className={labelStyle}>Data de Nascimento</label>
-              <input type="date" className={inputStyle} />
+              <input 
+                type="date" 
+                className={inputStyle} 
+                value={dataNascimento}
+                onChange={(e) => setDataNascimento(e.target.value)}
+              />
             </div>
 
             <div className="flex flex-col">
               <label className={labelStyle}>Telefone</label>
-              <input type="tel" className={inputStyle} placeholder="(XX) XXXXX-XXXX" />
+              <input 
+                type="tel" 
+                className={inputStyle} 
+                placeholder="(XX) XXXXX-XXXX" 
+                value={telefone}
+                onChange={(e) => setTelefone(e.target.value)}
+                
+              />
             </div>
           </div>
 
           <div className="flex flex-col">
             <label className={labelStyle}>Email</label>
-            <input type="email" className={inputStyle} placeholder="exemplo@email.com" />
+            <input 
+              type="email" 
+              className={inputStyle} 
+              placeholder="exemplo@email.com" 
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
           </div>
 
          
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="flex flex-col">
               <label className={labelStyle}>Data da Consulta</label>
-              <input type="date" className={inputStyle} />
+              <input type="date" className={inputStyle}
+                value={dataConsulta}
+                onChange={(e) => setDataConsulta(e.target.value)}
+              />
             </div>
 
             <div className="flex flex-col">
               <label className={labelStyle}>Horário</label>
-              <input type="time" className={inputStyle} />
+              <input type="time" className={inputStyle} 
+                value={horario}
+                onChange={(e) => setHorario(e.target.value)}
+              />
             </div>
           </div>
 
@@ -194,11 +306,13 @@ function ConsultaPaciente() {
               rows={4}
               className={`${inputStyle} resize-none`}
               placeholder="Descreva os sintomas..."
+              value={sintomas}
+              onChange={(e) => setSintomas(e.target.value)}
             />
           </div>
 
          
-          <button
+          <button 
             type="submit"
             className="
               w-full py-3 rounded-lg font-medium

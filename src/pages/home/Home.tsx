@@ -71,12 +71,8 @@ export default function Home() {
   }, []);
 
   function handleCtaPainel() {
-    if (!token) {
-      ToastAlerta("Você precisa estar logado para acessar o painel.", "info");
-      navigate("/login");
-      return;
-    }
-    navigate("/consultas");
+    
+    navigate("/marcarconsulta");
   }
 
   const slides: Slide[] = useMemo(
@@ -85,24 +81,24 @@ export default function Home() {
         tag: "CRMed • Sistema Clínico",
         title: "Gestão moderna para consultas e agenda.",
         subtitle: "Um CRM pensado para médicos: organizado, profissional e intuitivo para o seu dia a dia.",
-        cta: "Acessar painel",
+        cta: "Agende sua consulta",
       },
       {
         tag: "Visão do médico",
         title: "Agenda e consultas, sem complicação.",
         subtitle: "Tenha controle total da agenda e das consultas, com um fluxo claro para cadastro e acompanhamento.",
-        cta: "Acessar painel",
+        cta: "Agende sua consulta",
       },
       {
         tag: "Fluxo do paciente",
         title: "Solicitação por formulário, direto para o médico.",
         subtitle: "O paciente encontra o site, escolhe especialidade e envia um formulário para solicitar a consulta.",
-        cta: "Acessar painel",
+        cta: "Agende sua consulta",
       },
     ],
     []
   );
-
+                           
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
   const [animKey, setAnimKey] = useState(0);
@@ -325,7 +321,7 @@ export default function Home() {
                       text-white transition font-inter
                     "
                   >
-                    Ver como funciona
+                    Área do  Médico
                   </button>
                 </div>
 
