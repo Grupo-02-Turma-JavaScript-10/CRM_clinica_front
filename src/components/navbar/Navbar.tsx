@@ -27,10 +27,7 @@ export default function Navbar() {
     }
 
     return [
-      { to: "/", label: "Home" },
-      { to: "/consultas", label: "Consultas" },
-      { to: "/especialidades", label: "Especialidades" },
-      { to: "/sobrenos", label: "Sobre nós" },
+      { to: "/consultas", label: "Painel de Consultas" },
     ];
   }, [logged]);
 

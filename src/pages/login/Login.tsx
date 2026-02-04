@@ -17,12 +17,6 @@ function Login() {
 
   const [showPassword, setShowPassword] = useState(false);
 
-  useEffect(()=> {
-    if (isAuthenticated()) {
-      navigate('/home')
-    }
-  }, [usuario])
-
   function atualizarEstado(e: ChangeEvent<HTMLInputElement>) {
     setUsuarioLogin({
       ...usuarioLogin,
@@ -30,9 +24,14 @@ function Login() {
     });
   }
 
-  function logar(e: ChangeEvent<HTMLFormElement>) {
+  async function logar(e: ChangeEvent<HTMLFormElement>) {
     e.preventDefault();
-    handleLogin(usuarioLogin);
+    try {
+      await handleLogin(usuarioLogin);
+      navigate('/perfil');
+    } catch (error) {
+      // Erro já tratado no AuthContext
+    }
   }
 
   return (

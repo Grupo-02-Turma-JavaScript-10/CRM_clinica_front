@@ -22,6 +22,8 @@ import DeletarConsulta from "./components/consulta/deletarconsulta/DeletarConsul
 
 import ConstelacaoBackground from "./components/background/ConstelacaoBackground";
 import { AuthProvider } from "./contexts/AuthContext";
+import PerfilPage from "./pages/perfil/Perfil";
+
 
 function App() {
   return (
@@ -36,6 +38,7 @@ function App() {
             <main className="min-h-[80vh]">
               <Routes>
                 <Route path="/" element={<Home />} />
+                <Route path="/home" element={<Home />} />
 
                 <Route path="/login" element={<Login />} />
                 <Route path="/cadastro" element={<Cadastro />} />
@@ -46,16 +49,15 @@ function App() {
                 <Route path="/deletarespecialidade/:id" element={<DeletarEspecialidade />} />
 
                 <Route path="/consultas" element={<ListaConsulta />} />
-                <Route path="/cadastrarconsulta" element={<FormConsulta />} />
+                <Route path="/marcarconsulta" element={<FormConsulta />} />
                 <Route path="/editarconsulta/:id" element={<FormConsulta />} />
                 <Route path="/deletarconsulta/:id" element={<DeletarConsulta />} />
+              
 
                 <Route
                   path="/perfil"
                   element={
-                    <PrivateRoute>
-                      <Perfil />
-                    </PrivateRoute>
+                      <PerfilPage />
                   }
                 />
 

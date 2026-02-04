@@ -2,6 +2,10 @@ import { useEffect, useRef } from "react";
 
 type Props = { children: React.ReactNode };
 
+let CACHED_PTS:
+  | { x: number; y: number; vx: number; vy: number; r: number }[]
+  | null = null;
+
 export default function ConstelacaoBackground({ children }: Props) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
@@ -15,6 +19,8 @@ export default function ConstelacaoBackground({ children }: Props) {
     let w = 0;
     let h = 0;
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    const SPEED = 2.2;
 
     const mouse = { x: 0.5, y: 0.5 };
     const onMove = (e: MouseEvent) => {
@@ -31,25 +37,63 @@ export default function ConstelacaoBackground({ children }: Props) {
       canvas.style.width = `${w}px`;
       canvas.style.height = `${h}px`;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      if (CACHED_PTS) {
+        for (const p of CACHED_PTS) {
+          p.x = Math.min(Math.max(p.x, 0), w);
+          p.y = Math.min(Math.max(p.y, 0), h);
+        }
+      }
     };
 
     resize();
     window.addEventListener("resize", resize);
 
     const N = 70;
-    const pts = Array.from({ length: N }, () => ({
-      x: Math.random() * w,
-      y: Math.random() * h,
-      vx: (Math.random() - 0.5) * 0.12,
-      vy: (Math.random() - 0.5) * 0.12,
-      r: 1 + Math.random() * 1.2,
-    }));
 
-    const colorForTheme = () => {
-      const isDark = document.documentElement.classList.contains("theme-dark");
+    if (!CACHED_PTS) {
+      CACHED_PTS = Array.from({ length: N }, () => ({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        vx: (Math.random() - 0.5) * 0.12 * SPEED,
+        vy: (Math.random() - 0.5) * 0.12 * SPEED,
+        r: 1 + Math.random() * 1.2,
+      }));
+    } else {
+      for (const p of CACHED_PTS) {
+        p.vx *= SPEED;
+        p.vy *= SPEED;
+      }
+    }
+
+    const pts = CACHED_PTS;
+
+    const getThemeColors = () => {
+      const html = document.documentElement;
+      const body = document.body;
+      const root = document.getElementById("root");
+
+      const dataTheme =
+        html.getAttribute("data-theme") ||
+        body.getAttribute("data-theme") ||
+        root?.getAttribute("data-theme");
+
+      const isDark =
+        (dataTheme && dataTheme.toLowerCase() === "dark") ||
+        html.classList.contains("dark") ||
+        html.classList.contains("theme-dark") ||
+        body.classList.contains("dark") ||
+        body.classList.contains("theme-dark") ||
+        root?.classList.contains("dark") ||
+        root?.classList.contains("theme-dark");
+
       return {
-        node: isDark ? "rgba(140, 240, 230, 0.90)" : "rgba(10, 130, 150, 0.62)",
-        line: isDark ? "rgba(45, 212, 191, 0.24)" : "rgba(10, 130, 150, 0.18)",
+        node: isDark
+          ? "rgba(140, 240, 230, 0.92)"
+          : "rgba(10, 160, 160, 0.32)",
+        line: isDark
+          ? "rgba(68, 226, 213, 0.18)"
+          : "rgba(10, 160, 160, 0.10)",
       };
     };
 
@@ -72,7 +116,7 @@ export default function ConstelacaoBackground({ children }: Props) {
         if (p.y > h + 40) p.y = -40;
       }
 
-      const { node, line } = colorForTheme();
+      const { node, line } = getThemeColors();
 
       ctx.lineWidth = 1;
       for (let i = 0; i < pts.length; i++) {
@@ -82,9 +126,13 @@ export default function ConstelacaoBackground({ children }: Props) {
           const dx = a.x - b.x;
           const dy = a.y - b.y;
           const dist = Math.sqrt(dx * dx + dy * dy);
+
           if (dist < 145) {
             const alpha = 1 - dist / 145;
-            ctx.strokeStyle = line.replace(/0\.\d+\)/, `${(alpha * 0.9).toFixed(3)})`);
+            ctx.strokeStyle = line.replace(
+              /0\.\d+\)/,
+              `${(alpha * 0.9).toFixed(3)})`
+            );
             ctx.beginPath();
             ctx.moveTo(a.x + px, a.y + py);
             ctx.lineTo(b.x + px, b.y + py);

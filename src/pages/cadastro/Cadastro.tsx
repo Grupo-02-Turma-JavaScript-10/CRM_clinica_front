@@ -6,6 +6,7 @@ import type { Especialidade } from "../../models/Especialidade";
 import { buscar, cadastrarUsuario } from "../../services/Service";
 import { ToastAlerta } from "../../utils/ToastAlerta";
 import { enviarFotoPerfil } from "../../services/cloudinary.service";
+import { ClipLoader } from "react-spinners";
 
 function Cadastro() {
   const navigate = useNavigate();
@@ -413,7 +414,11 @@ function Cadastro() {
                focus-visible:shadow-[0_0_22px_rgba(13,148,136,1)]
                "
                >
-               Criar conta
+               {
+                isLoading?
+                <ClipLoader color="#FFFFFF" size={24}/> :
+                'Criar conta'
+               }
                </button>
 
             </form>
