@@ -1,22 +1,121 @@
-import { useState } from "react";
 import { CalendarPlus, CaretDown, CheckCircle } from "@phosphor-icons/react";
+import { useContext, useEffect, useState, type ChangeEvent, type FormEvent } from "react";
+import type { Medico } from "../../../models/Medico";
+import { cadastrar } from "../../../services/Service";
+import type { Paciente } from "../../../models/Paciente";
+import type { Consulta } from "../../../models/Consulta";
+import { buscar } from "../../../services/Service";
+import { ToastAlerta } from "../../../utils/ToastAlerta";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../../contexts/AuthContext";
 
 function ConsultaPaciente() {
-  const [pacienteInput, setPacienteInput] = useState("");
-  const [mostrarSugestoesPaciente, setMostrarSugestoesPaciente] = useState(false);
+  const navigate = useNavigate();
+  const { usuario } = useContext(AuthContext);
 
-  const [especialidadeSelecionada, setEspecialidadeSelecionada] = useState("");
-  const [medicoSelecionado, setMedicoSelecionado] = useState("");
+  const [medicos, setMedicos] = useState<Medico[]>([])
+  const [medicoSelecionado, setMedicoSelecionado] = useState<Medico | null>(null);
+  const [paciente, setPaciente] = useState<Paciente>({} as Paciente);
+  const [consulta, setConsulta] = useState<Consulta>({
+    data: new Date(),
+    hora: '',
+    descricaoSintomas: '',
+    realizado: false,
+  } as Consulta);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const medicos = [
-    { nome: "Dr. João Silva", especialidade: "Cardiologia" },
-    { nome: "Dra. Maria Souza", especialidade: "Ortopedia" },
-    { nome: "Dr. Pedro Santos", especialidade: "Dermatologia" },
-    { nome: "Dra. Carla Lima", especialidade: "Cardiologia" },
-  ];
+  async function buscarMedicos() {
+    try {
+      const response = await fetch('https://crmed.onrender.com/medicos/all', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        cache: 'no-cache'
+      });
+      
+      if (!response.ok) {
+        throw new Error('Erro ao buscar médicos');
+      }
+      
+      const data = await response.json();
+      console.log('Médicos carregados do backend:', data);
+      setMedicos(data);
+    } catch (error) {
+      console.error('Erro ao buscar médicos:', error)
+    }
+  }
 
-  const pacientes = ["Carlos Pereira", "Ana Oliveira", "João Mendes", "Maria Clara"];
-  const especialidades = [...new Set(medicos.map((m) => m.especialidade))];
+  useEffect(() => {
+    buscarMedicos()
+  }, [])
+
+  useEffect(() => {
+    console.log('Estado medicos atualizado:', medicos)
+  }, [medicos])
+
+  function atualizarEstadoPaciente(e: ChangeEvent<HTMLInputElement>){
+    setPaciente({
+      ...paciente,
+      [e.target.name]: e.target.value,
+    });
+  }
+
+  function atualizarEstadoConsulta(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>){
+    setConsulta({
+      ...consulta,
+      [e.target.name]: e.target.value,
+    });
+  }
+
+  function handleMedicoChange(e: ChangeEvent<HTMLSelectElement>) {
+    const medicoId = Number(e.target.value);
+    const medico = medicos.find(m => m.id === medicoId);
+    setMedicoSelecionado(medico || null);
+  }
+
+  async function agendarConsulta(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setIsLoading(true);
+
+    if (!medicoSelecionado) {
+      ToastAlerta("Por favor, selecione um médico", "info");
+      setIsLoading(false);
+      return;
+    }
+
+    if (!medicoSelecionado.especialidade) {
+      ToastAlerta("O médico selecionado não possui especialidade definida", "erro");
+      setIsLoading(false);
+      return;
+    }
+
+    // Preparar dados do paciente sem ID
+    const { id: _, ...pacienteSemId } = paciente;
+
+    const novaConsulta = {
+      data: consulta.data,
+      hora: consulta.hora,
+      descricaoSintomas: consulta.descricaoSintomas,
+      realizado: false,
+      medico: { id: medicoSelecionado.id },
+      especialidade: { id: medicoSelecionado.especialidade.id },
+      paciente: pacienteSemId,
+    };
+
+    console.log('Enviando consulta:', novaConsulta);
+
+    try {
+      await cadastrar('/consulta/new', novaConsulta, () => {}, {});
+      ToastAlerta("Consulta agendada com sucesso!", "sucesso");
+      navigate('/consultas');
+    } catch (error: any) {
+      ToastAlerta("Erro ao agendar consulta. Verifique os dados.", "erro");
+      console.error('Erro completo:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   const inputStyle = `
     w-full bg-[var(--bg)] border border-[var(--accent)]/20 rounded-2xl p-4
@@ -33,14 +132,6 @@ function ConsultaPaciente() {
 
   const labelStyle =
     "text-[10px] font-black uppercase tracking-[0.2em] text-[var(--accent)] ml-2 mb-3 block font-[var(--font-sans)]";
-
-  const pacientesFiltrados = pacientes.filter((p) =>
-    p.toLowerCase().includes(pacienteInput.toLowerCase())
-  );
-
-  const medicosRelacionados = medicos.filter(
-    (m) => m.especialidade === especialidadeSelecionada
-  );
 
   return (
     <div className="min-h-screen bg-transparent pt-24 pb-20 px-6 font-[var(--font-sans)]">
@@ -60,30 +151,28 @@ function ConsultaPaciente() {
         </div>
 
         <form
+          onSubmit={agendarConsulta}
           className="bg-[var(--surface)] p-10 rounded-[2.5rem] border border-[var(--accent)]/10 space-y-6"
           style={{
             boxShadow:
               "0 0 25px rgba(13, 148, 136, 0.5), 0 0 25px rgba(59, 130, 246, 0.5)",
           }}
         >
-        
           <div className="flex flex-col">
-            <label className={labelStyle}>Especialidade</label>
+            <label className={labelStyle}>Médico</label>
             <div className="relative">
-              <select
+              <select 
                 className={inputStyle}
-                value={especialidadeSelecionada}
-                onChange={(e) => {
-                  setEspecialidadeSelecionada(e.target.value);
-                  setMedicoSelecionado("");
-                }}
+                value={medicoSelecionado?.id || ''}
+                onChange={handleMedicoChange}
+                required
               >
                 <option value="" disabled>
-                  Selecione a especialidade
+                  Selecione o médico
                 </option>
-                {especialidades.map((esp) => (
-                  <option key={esp} value={esp}>
-                    {esp}
+                {medicos.map((medico) => (
+                  <option key={medico.id} value={medico.id}>
+                    {medico.nome} - {medico.especialidade?.nome || 'Sem especialidade'}
                   </option>
                 ))}
               </select>
@@ -94,96 +183,85 @@ function ConsultaPaciente() {
             </div>
           </div>
 
-          {especialidadeSelecionada && (
-            <div className="flex flex-col">
-              <label className={labelStyle}>Médico</label>
-              <div className="relative">
-                <select
-                  className={inputStyle}
-                  value={medicoSelecionado}
-                  onChange={(e) => setMedicoSelecionado(e.target.value)}
-                >
-                  <option value="" disabled>
-                    Selecione o médico
-                  </option>
-                  {medicosRelacionados.map((m) => (
-                    <option key={m.nome} value={m.nome}>
-                      {m.nome}
-                    </option>
-                  ))}
-                </select>
-                <CaretDown
-                  size={16}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-[var(--muted)] pointer-events-none"
-                />
-              </div>
-            </div>
-          )}
-
          
           <div className="flex flex-col">
             <label className={labelStyle}>Paciente</label>
-            <div className="relative">
-              <input
-                type="text"
-                value={pacienteInput}
-                onChange={(e) => {
-                  setPacienteInput(e.target.value);
-                  setMostrarSugestoesPaciente(true);
-                }}
-                placeholder="Digite o nome do paciente"
-                className={inputStyle}
-              />
-
-              {mostrarSugestoesPaciente &&
-                pacienteInput &&
-                pacientesFiltrados.length > 0 && (
-                  <ul className="absolute top-full left-0 w-full bg-[var(--surface)] border border-[var(--accent)]/20 mt-2 shadow-lg max-h-40 overflow-y-auto z-20">
-                    {pacientesFiltrados.map((p) => (
-                      <li
-                        key={p}
-                        onClick={() => {
-                          setPacienteInput(p);
-                          setMostrarSugestoesPaciente(false);
-                        }}
-                        className="px-4 py-2 cursor-pointer hover:bg-[var(--accent)]/10 transition"
-                      >
-                        {p}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-            </div>
+            <input
+              type="text"
+              name="nome"
+              value={paciente.nome || ''}
+              onChange={atualizarEstadoPaciente}
+              placeholder="Digite o nome do paciente"
+              className={inputStyle}
+              required
+            />
           </div>
 
        
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="flex flex-col">
               <label className={labelStyle}>Data de Nascimento</label>
-              <input type="date" className={inputStyle} />
+              <input 
+                type="date" 
+                name="dataNasc"
+                value={paciente.dataNasc ? new Date(paciente.dataNasc).toISOString().split('T')[0] : ''}
+                onChange={atualizarEstadoPaciente}
+                className={inputStyle}
+                required
+              />
             </div>
 
             <div className="flex flex-col">
               <label className={labelStyle}>Telefone</label>
-              <input type="tel" className={inputStyle} placeholder="(XX) XXXXX-XXXX" />
+              <input 
+                type="tel" 
+                name="telefone"
+                value={paciente.telefone || ''}
+                onChange={atualizarEstadoPaciente}
+                className={inputStyle} 
+                placeholder="(XX) XXXXX-XXXX"
+                required
+              />
             </div>
           </div>
 
           <div className="flex flex-col">
             <label className={labelStyle}>Email</label>
-            <input type="email" className={inputStyle} placeholder="exemplo@email.com" />
+            <input 
+              type="email" 
+              name="email"
+              value={paciente.email || ''}
+              onChange={atualizarEstadoPaciente}
+              className={inputStyle} 
+              placeholder="exemplo@email.com"
+              required
+            />
           </div>
 
          
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="flex flex-col">
               <label className={labelStyle}>Data da Consulta</label>
-              <input type="date" className={inputStyle} />
+              <input 
+                type="date" 
+                name="data"
+                value={consulta.data ? new Date(consulta.data).toISOString().split('T')[0] : ''}
+                onChange={atualizarEstadoConsulta}
+                className={inputStyle}
+                required
+              />
             </div>
 
             <div className="flex flex-col">
               <label className={labelStyle}>Horário</label>
-              <input type="time" className={inputStyle} />
+              <input 
+                type="time" 
+                name="hora"
+                value={consulta.hora || ''}
+                onChange={atualizarEstadoConsulta}
+                className={inputStyle}
+                required
+              />
             </div>
           </div>
 
@@ -192,14 +270,19 @@ function ConsultaPaciente() {
             <label className={labelStyle}>Descrição dos Sintomas</label>
             <textarea
               rows={4}
+              name="descricaoSintomas"
+              value={consulta.descricaoSintomas || ''}
+              onChange={atualizarEstadoConsulta}
               className={`${inputStyle} resize-none`}
               placeholder="Descreva os sintomas..."
+              required
             />
           </div>
 
          
           <button
             type="submit"
+            disabled={isLoading}
             className="
               w-full py-3 rounded-lg font-medium
               bg-cyan-500 text-[#EAF2FF]
@@ -209,10 +292,17 @@ function ConsultaPaciente() {
               focus-visible:outline-none
               focus-visible:shadow-[0_0_22px_rgba(13,148,136,1)]
               flex items-center justify-center gap-3
+              disabled:opacity-50 disabled:cursor-not-allowed
             "
           >
-            <CheckCircle size={22} />
-            Confirmar Agendamento
+            {isLoading ? (
+              <>Processando...</>
+            ) : (
+              <>
+                <CheckCircle size={22} />
+                Confirmar Agendamento
+              </>
+            )}
           </button>
         </form>
       </div>

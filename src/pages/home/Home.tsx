@@ -71,12 +71,7 @@ export default function Home() {
   }, []);
 
   function handleCtaPainel() {
-    if (!token) {
-      ToastAlerta("Você precisa estar logado para acessar o painel.", "info");
-      navigate("/login");
-      return;
-    }
-    navigate("/consultas");
+    navigate("/marcarconsulta");
   }
 
   const slides: Slide[] = useMemo(
@@ -85,19 +80,19 @@ export default function Home() {
         tag: "CRMed • Sistema Clínico",
         title: "Gestão moderna para consultas e agenda.",
         subtitle: "Um CRM pensado para médicos: organizado, profissional e intuitivo para o seu dia a dia.",
-        cta: "Acessar painel",
+        cta: "Marcar Consulta",
       },
       {
         tag: "Visão do médico",
         title: "Agenda e consultas, sem complicação.",
         subtitle: "Tenha controle total da agenda e das consultas, com um fluxo claro para cadastro e acompanhamento.",
-        cta: "Acessar painel",
+        cta: "Marcar Consulta",
       },
       {
         tag: "Fluxo do paciente",
         title: "Solicitação por formulário, direto para o médico.",
         subtitle: "O paciente encontra o site, escolhe especialidade e envia um formulário para solicitar a consulta.",
-        cta: "Acessar painel",
+        cta: "Marcar Consulta",
       },
     ],
     []
@@ -217,32 +212,28 @@ export default function Home() {
   const [totalMedicos, setTotalMedicos] = useState<number>(0);
 
   useEffect(() => {
-    async function loadCounts() {
-      const header = token ? { headers: { Authorization: token } } : undefined;
-
+    async function buscarDados() {
       try {
-        let esp: any = null;
-        await buscar("/especialidades", (data: any) => (esp = data), header ?? {});
-        setTotalEspecialidades(Array.isArray(esp) ? esp.length : 0);
-      } catch {
-        setTotalEspecialidades(0);
-      }
+        // Buscar especialidades
+        const especialidades: any[] = [];
+        await buscar('/especialidade/all', (data: any[]) => {
+          especialidades.push(...data);
+        });
+        setTotalEspecialidades(especialidades.length);
 
-      try {
-        let users: any = null;
-        try {
-          await buscar("/usuarios", (data: any) => (users = data), header ?? {});
-        } catch {
-          await buscar("/medicos", (data: any) => (users = data), header ?? {});
-        }
-        setTotalMedicos(Array.isArray(users) ? users.length : 0);
-      } catch {
-        setTotalMedicos(0);
+        // Buscar médicos
+        const medicos: any[] = [];
+        await buscar('/medicos/all', (data: any[]) => {
+          medicos.push(...data);
+        });
+        setTotalMedicos(medicos.length);
+      } catch (error) {
+        console.error('Erro ao buscar dados:', error);
       }
     }
 
-    if (token) loadCounts();
-  }, [token]);
+    buscarDados();
+  }, []);
 
   const sectionTitleClass = isDark ? "text-white" : "text-slate-900";
   const sectionSubClass = isDark ? "text-white/80" : "text-slate-600";
@@ -318,14 +309,14 @@ export default function Home() {
                   </button>
 
                   <button
-                    onClick={() => navigate("/sobrenos")}
+                    onClick={() => navigate("/login")}
                     className="
                       rounded-full px-7 py-3 font-semibold
                       border border-white/14 bg-white/5 hover:bg-white/10
                       text-white transition font-inter
                     "
                   >
-                    Ver como funciona
+                    Área do médico
                   </button>
                 </div>
 
@@ -419,7 +410,7 @@ export default function Home() {
               transition font-inter
             "
           >
-            Acessar painel
+            Marcar Consulta
           </button>
         </div>
 

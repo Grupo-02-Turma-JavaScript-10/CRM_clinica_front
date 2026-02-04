@@ -5,13 +5,50 @@ import {
 } from "@phosphor-icons/react";
 
 import CardConsulta from "../cardconsulta/CardConsulta";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../../../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
+import type { Consulta } from "../../../models/Consulta";
+import { buscar } from "../../../services/Service";
+import { getToken } from "../../../utils/Auth";
 
 function ListaConsultas() {
-  const consultasMock = [
-    { id: 1, paciente: { nome: "Paciente 1" }, especialidade: { nome: "Cardiologia" }, data: "20/05/2026", hora: "14:30" },
-    { id: 2, paciente: { nome: "Paciente 2" }, especialidade: { nome: "Ortopedia" }, data: "21/05/2026", hora: "09:00" },
-    { id: 3, paciente: { nome: "Paciente 3" }, especialidade: { nome: "Clínico Geral" }, data: "22/05/2026", hora: "10:15" },
-  ];
+  const {usuario, handleLogout} = useContext(AuthContext);
+  const navigate = useNavigate();
+  const [consultas, setConsultas] = useState<Consulta[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  async function buscarConsultas() {
+    setIsLoading(true);
+    try {
+      const token = getToken();
+      await buscar('/consulta/all', (data: Consulta[]) => {
+        // Filtrar apenas consultas do médico logado
+        const consultasFiltradas = data.filter(
+          consulta => consulta.medico.id === usuario.id
+        );
+        setConsultas(consultasFiltradas);
+      }, {
+        headers: {
+          Authorization: token
+        }
+      });
+    } catch (error) {
+      console.error('Erro ao buscar consultas:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    if (usuario.id) {
+      buscarConsultas();
+    }
+  }, [usuario.id]);
+
+  const formConsulta = ()=> {
+    navigate('/marcarconsulta')
+  }
 
   return (
     <div className="min-h-screen bg-transparent pb-20 transition-colors duration-300">
@@ -59,6 +96,7 @@ function ListaConsultas() {
                 overflow-hidden
                 font-[var(--font-sans)]
               "
+              onClick={formConsulta}
             >
               <span className="absolute inset-0 bg-white/25 scale-0 group-hover:scale-100 transition-transform duration-500 rounded-[2rem] blur-xl" />
 
@@ -72,42 +110,57 @@ function ListaConsultas() {
       </header>
 
       <main className="container mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-          {consultasMock.map((consulta) => (
-            <CardConsulta key={consulta.id} consulta={consulta} />
-          ))}
-          
-          <div
-            className="
-              min-h-[420px]
-              rounded-[2.5rem]
-              border-2 border-dashed border-[var(--border)]
-              flex flex-col items-center justify-center
-              cursor-pointer
-              transition-all duration-500
-              group
-              hover:border-[var(--accent)]/50
-              hover:bg-[var(--surface)]
-              hover:shadow-[0_0_40px_rgba(45,212,191,0.15)]
-            "
-          >
+        {isLoading ? (
+          <div className="flex justify-center items-center min-h-[400px]">
+            <CircleNotch size={48} className="animate-spin text-[var(--accent)]" />
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+            {consultas.length > 0 ? (
+              consultas.map((consulta) => (
+                <CardConsulta key={consulta.id} consulta={consulta} />
+              ))
+            ) : (
+              <div className="col-span-full text-center py-12">
+                <p className="text-[var(--muted)] text-lg">
+                  Nenhuma consulta encontrada
+                </p>
+              </div>
+            )}
+            
             <div
+              onClick={formConsulta}
               className="
-                p-4 mb-4 rounded-full
-                bg-[var(--surface-2)]
+                min-h-[420px]
+                rounded-[2.5rem]
+                border-2 border-dashed border-[var(--border)]
+                flex flex-col items-center justify-center
+                cursor-pointer
                 transition-all duration-500
-                group-hover:scale-110
-                group-hover:bg-[var(--accent)]/20
+                group
+                hover:border-[var(--accent)]/50
+                hover:bg-[var(--surface)]
+                hover:shadow-[0_0_40px_rgba(45,212,191,0.15)]
               "
             >
-              <Plus size={32} className="text-[var(--muted)] group-hover:text-[var(--accent)]" />
-            </div>
+              <div
+                className="
+                  p-4 mb-4 rounded-full
+                  bg-[var(--surface-2)]
+                  transition-all duration-500
+                  group-hover:scale-110
+                  group-hover:bg-[var(--accent)]/20
+                "
+              >
+                <Plus size={32} className="text-[var(--muted)] group-hover:text-[var(--accent)]" />
+              </div>
 
-            <p className="font-black text-sm uppercase tracking-[0.2em] text-[var(--muted)] group-hover:text-[var(--accent)] transition-colors font-[var(--font-sans)]">
-              Adicionar Consulta
-            </p>
+              <p className="font-black text-sm uppercase tracking-[0.2em] text-[var(--muted)] group-hover:text-[var(--accent)] transition-colors font-[var(--font-sans)]">
+                Adicionar Consulta
+              </p>
+            </div>
           </div>
-        </div>
+        )}
       </main>
     </div>
   );

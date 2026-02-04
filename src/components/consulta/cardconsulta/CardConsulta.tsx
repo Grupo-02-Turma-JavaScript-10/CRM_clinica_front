@@ -5,14 +5,21 @@ import {
   Clock,
   PencilLine,
   Trash,
+  FirstAidKit,
 } from "@phosphor-icons/react";
+import type { Consulta } from "../../../models/Consulta";
 
 interface CardConsultaProps {
-  consulta?: any;
+  consulta: Consulta;
 }
 
 function CardConsulta({ consulta }: CardConsultaProps) {
   if (!consulta) return null;
+
+  // Formatar data para exibição
+  const dataFormatada = consulta.data 
+    ? new Date(consulta.data).toLocaleDateString('pt-BR')
+    : "Data não definida";
 
   return (
     <div
@@ -50,7 +57,7 @@ function CardConsulta({ consulta }: CardConsultaProps) {
         <div className="flex items-center gap-2">
           <Stethoscope size={20} weight="bold" className="text-[var(--accent)]" />
           <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[var(--muted)]">
-            Consulta #{consulta?.id || "0"}
+            Consulta #{consulta.id}
           </span>
         </div>
 
@@ -72,18 +79,35 @@ function CardConsulta({ consulta }: CardConsultaProps) {
             "
           >
             <span className="font-black text-3xl uppercase text-[var(--text)]">
-              {consulta?.paciente?.nome?.charAt(0) || "P"}
+              {consulta.paciente?.nome?.charAt(0) || "?"}
             </span>
           </div>
         </div>
 
         <p className="text-[11px] text-[var(--accent)] font-black uppercase tracking-[0.2em] mb-1">
-          {consulta?.especialidade?.nome || "Especialidade"}
+          {consulta.especialidade?.nome || "Sem especialidade"}
         </p>
 
-        <h2 className="text-2xl font-bold tracking-tight mb-6 text-[var(--text)]">
-          {consulta?.paciente?.nome || "Paciente Exemplo"}
+        <h2 className="text-2xl font-bold tracking-tight mb-2 text-[var(--text)]">
+          {consulta.paciente?.nome || "Paciente não identificado"}
         </h2>
+
+        <p className="text-xs text-[var(--muted)] mb-6">
+          {consulta.paciente?.email || "Email não informado"}
+        </p>
+
+        {/* Descrição dos sintomas */}
+        <div className="w-full mb-6 p-4 rounded-xl bg-[var(--surface-2)]/30 border border-[var(--accent)]/10">
+          <div className="flex items-center gap-2 mb-2">
+            <FirstAidKit size={16} className="text-[var(--accent)]" />
+            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[var(--accent)]">
+              Sintomas
+            </span>
+          </div>
+          <p className="text-xs text-[var(--text)] text-left line-clamp-3">
+            {consulta.descricaoSintomas || "Sem descrição de sintomas"}
+          </p>
+        </div>
 
         <div
           className="
@@ -98,21 +122,21 @@ function CardConsulta({ consulta }: CardConsultaProps) {
         >
           <div className="flex-1 flex items-center justify-center gap-2 py-2.5 font-bold text-[11px] text-[var(--text)]">
             <Calendar size={18} className="text-[var(--accent)]" />
-            {consulta?.data || "00/00/00"}
+            {dataFormatada}
           </div>
 
           <div className="w-px h-4 bg-[var(--accent)]/20" />
 
           <div className="flex-1 flex items-center justify-center gap-2 py-2.5 font-bold text-[11px] text-[var(--text)]">
             <Clock size={18} className="text-[var(--accent)]" />
-            {consulta?.hora || "00:00"}h
+            {consulta.hora || "00:00"}
           </div>
         </div>
       </div>
 
       <div className="flex border-t border-[var(--accent)]/10 bg-[var(--surface-2)]/30 relative z-10">
         <Link
-          to={`/editarConsulta/${consulta?.id}`}
+          to={`/editarConsulta/${consulta.id}`}
           className="
             flex-1 flex items-center justify-center gap-2 py-5
             text-[11px] font-black uppercase tracking-widest
@@ -128,7 +152,7 @@ function CardConsulta({ consulta }: CardConsultaProps) {
         </Link>
 
         <Link
-          to={`/deletarConsulta/${consulta?.id}`}
+          to={`/deletarConsulta/${consulta.id}`}
           className="
             flex-1 flex items-center justify-center gap-2 py-5
             text-[11px] font-black uppercase tracking-widest
