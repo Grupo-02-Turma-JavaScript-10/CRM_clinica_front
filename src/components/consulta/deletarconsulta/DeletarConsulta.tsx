@@ -1,8 +1,75 @@
-import { useNavigate } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { WarningCircle, Trash } from "@phosphor-icons/react";
+import { AuthContext } from "../../../contexts/AuthContext";
+import { buscar, deletar } from "../../../services/Service";
+import { ToastAlerta } from "../../../utils/ToastAlerta";
+import type { Consulta } from "../../../models/Consulta";
 
 function DeletarConsulta() {
   const navigate = useNavigate();
+  const { id } = useParams<{ id: string }>();
+  const { usuario, handleLogout } = useContext(AuthContext);
+  const token = usuario?.token ?? "";
+
+  const [consulta, setConsulta] = useState<Consulta | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  async function buscarPorId(id: string) {
+    try {
+      await buscar(`/consulta/id/${id}`, setConsulta, {
+        headers: { Authorization: token },
+      });
+    } catch (error: any) {
+      if (error.toString().includes("403")) {
+        ToastAlerta("Token expirado, faça login novamente", "info");
+        handleLogout();
+      } else {
+        ToastAlerta("Erro ao buscar a consulta", "erro");
+        navigate("/consultas");
+      }
+    }
+  }
+
+  useEffect(() => {
+    if (token === "") {
+      ToastAlerta("Você precisa estar logado", "info");
+      navigate("/login");
+    }
+  }, [token]);
+
+  useEffect(() => {
+    if (id !== undefined) {
+      buscarPorId(id);
+    }
+  }, [id]);
+
+  async function deletarConsulta() {
+    setIsLoading(true);
+    try {
+      await deletar(`/consulta/delete/${id}`, {
+        headers: { Authorization: token },
+      });
+
+      ToastAlerta("Consulta cancelada com sucesso", "sucesso");
+      navigate("/consultas");
+    } catch (error: any) {
+      if (error.toString().includes("403")) {
+        ToastAlerta("Token expirado, faça login novamente", "info");
+        handleLogout();
+      } else {
+        ToastAlerta("Erro ao cancelar a consulta", "erro");
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  function formatarData(data: Date | undefined): string {
+    if (!data) return "N/A";
+    const date = new Date(data);
+    return date.toLocaleDateString("pt-BR");
+  }
 
   return (
     <div className="relative min-h-screen bg-transparent pt-24 pb-20 px-6 font-['Sora',_sans-serif] transition-all duration-500 overflow-hidden bg-[var(--bg)]">
@@ -60,7 +127,7 @@ function DeletarConsulta() {
                   Paciente
                 </span>
                 <p className="text-lg font-bold text-[var(--text)]">
-                  Nome do Paciente Exemplo
+                  {consulta?.paciente?.nome || "Carregando..."}
                 </p>
               </div>
 
@@ -70,7 +137,7 @@ function DeletarConsulta() {
                     Data
                   </span>
                   <p className="text-[var(--muted)] font-bold text-sm">
-                    20/05/2026
+                    {formatarData(consulta?.data)}
                   </p>
                 </div>
 
@@ -79,16 +146,20 @@ function DeletarConsulta() {
                     Horário
                   </span>
                   <p className="text-[var(--muted)] font-bold text-sm">
-                    14:30h
+                    {consulta?.hora || "N/A"}
                   </p>
                 </div>
               </div>
             </div>
 
             <div className="flex flex-col gap-2 pt-2">
-              <button className="w-full bg-red-500 hover:bg-red-600 text-white font-black uppercase tracking-[0.1em] py-4 rounded-xl transition-all duration-300 shadow-[0_4px_15px_rgba(239,68,68,0.28)] active:scale-95 flex items-center justify-center gap-2 text-xs">
+              <button
+                onClick={deletarConsulta}
+                disabled={isLoading || !consulta}
+                className="w-full bg-red-500 hover:bg-red-600 text-white font-black uppercase tracking-[0.1em] py-4 rounded-xl transition-all duration-300 shadow-[0_4px_15px_rgba(239,68,68,0.28)] active:scale-95 flex items-center justify-center gap-2 text-xs disabled:opacity-50 disabled:cursor-not-allowed"
+              >
                 <Trash size={18} weight="bold" />
-                Confirmar Exclusão
+                {isLoading ? "Cancelando..." : "Confirmar Exclusão"}
               </button>
 
               <button
