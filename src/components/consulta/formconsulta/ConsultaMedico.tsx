@@ -2,10 +2,6 @@ import { useState } from "react";
 import { CalendarPlus, CheckCircle } from "@phosphor-icons/react";
 
 function ConsultaMedico() {
-  const [pacienteInput, setPacienteInput] = useState("");
-  const [mostrarSugestoes, setMostrarSugestoes] = useState(false);
-
-  const pacientes = ["Carlos Pereira", "Ana Oliveira", "João Mendes", "Maria Clara"];
 
   const inputStyle = `
     w-full bg-[var(--bg)] border border-[var(--accent)]/20 rounded-2xl p-4
@@ -22,15 +18,6 @@ function ConsultaMedico() {
 
   const labelStyle =
     "text-[10px] font-black uppercase tracking-[0.2em] text-[var(--accent)] ml-2 mb-3 block font-[var(--font-sans)]";
-
-  const pacientesFiltrados = pacientes.filter((p) =>
-    p.toLowerCase().includes(pacienteInput.toLowerCase())
-  );
-
-  const selecionarPaciente = (nome) => {
-    setPacienteInput(nome);
-    setMostrarSugestoes(false);
-  };
 
   return (
     <div className="min-h-screen bg-transparent pt-24 pb-20 px-6 transition-colors duration-500 font-[var(--font-sans)]">
@@ -65,30 +52,9 @@ function ConsultaMedico() {
               <div className="relative">
                 <input
                   type="text"
-                  value={pacienteInput}
-                  onChange={(e) => {
-                    setPacienteInput(e.target.value);
-                    setMostrarSugestoes(true);
-                  }}
                   placeholder="Digite o nome do paciente"
                   className={inputStyle}
                 />
-
-                {mostrarSugestoes &&
-                  pacienteInput &&
-                  pacientesFiltrados.length > 0 && (
-                    <ul className="absolute top-full left-0 w-full bg-[var(--surface)] border border-[var(--accent)]/20 mt-2 shadow-lg max-h-40 overflow-y-auto z-20">
-                      {pacientesFiltrados.map((p) => (
-                        <li
-                          key={p}
-                          onClick={() => selecionarPaciente(p)}
-                          className="px-4 py-2 cursor-pointer hover:bg-[var(--accent)]/10 text-[var(--text)]"
-                        >
-                          {p}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
               </div>
             </div>
 
