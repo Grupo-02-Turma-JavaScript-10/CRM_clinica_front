@@ -22,6 +22,8 @@ body {
 
   --text: #0B1220;
   --muted: #516074;
+  --text-accent: #2db3d4;
+  --text-accent-2: #0677d4;
 
   --primary: #2563EB;
   --primary-hover: #1D4ED8;
@@ -50,6 +52,8 @@ html.theme-dark {
 
   --text: #EAF2FF;
   --muted: #94A3B8;
+  --text-accent: #2db3d4;
+  --text-accent-2: #0677d4;
 
   --primary: #3B82F6;
   --primary-hover: #2563EB;
@@ -81,7 +85,7 @@ html, body {
 }
 
 * {
-  transition: background-color 360ms ease, border-color 360ms ease, box-shadow 360ms ease, transform 160ms ease;
+transition: background-color 360ms ease, border-color 360ms ease, box-shadow 360ms ease, transform 160ms ease;
 }
 
 a, button {
@@ -176,6 +180,7 @@ html.theme-dark .glass-footer {
 
 .logo-dark { display: none; }
 .logo-light { display: block; }
+
 html.theme-dark .logo-dark { display: block; }
 html.theme-dark .logo-light { display: none; }
 

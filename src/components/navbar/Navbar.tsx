@@ -1,12 +1,15 @@
-import { useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 
 import LogoDark from "../../assets/dark-theme.svg";
 import LogoLight from "../../assets/light-theme.svg";
 
 import { isAuthenticated, clearToken } from "../../utils/Auth";
+import { AuthContext } from "../../contexts/AuthContext";
 
 export default function Navbar() {
+  const {usuario, handleLogout} = useContext(AuthContext);
+
   const [open, setOpen] = useState(false);
   const [logged, setLogged] = useState<boolean>(isAuthenticated());
 
@@ -49,8 +52,8 @@ export default function Navbar() {
     };
   }, []);
 
-  function handleLogout() {
-    clearToken();
+  function deslogar() {
+    handleLogout();
     setOpen(false);
     navigate("/login");
   }
@@ -142,7 +145,7 @@ export default function Navbar() {
                 type="button"
                 className={`hidden sm:inline-flex items-center justify-center ${rightBtnSize} nav-glass nav-danger ${focusRing}`}
                 title="Sair"
-                onClick={handleLogout}
+                onClick={deslogar}
               >
                 <>
                   <span className="nav-glass-underline" />
@@ -247,7 +250,7 @@ export default function Navbar() {
                   type="button"
                   className={`nav-glass nav-danger ${focusRing}`}
                   title="Sair"
-                  onClick={handleLogout}
+                  onClick={deslogar}
                 >
                   <>
                     <span className="nav-glass-underline" />

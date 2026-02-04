@@ -1,13 +1,10 @@
 import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
-
+import ThemeToggle from "./components/botão-tema/ThemeToggle";
 import { ToastContainer } from "react-toastify";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-
 import Navbar from "./components/navbar/Navbar";
 import Footer from "./components/footer/Footer";
-import ThemeToggle from "./components/botão-tema/ThemeToggle";
-
 import Home from "./pages/home/Home";
 import Login from "./pages/login/Login";
 import Cadastro from "./pages/cadastro/Cadastro";
@@ -24,51 +21,56 @@ import FormConsulta from "./components/consulta/formconsulta/FormConsulta";
 import DeletarConsulta from "./components/consulta/deletarconsulta/DeletarConsulta";
 
 import ConstelacaoBackground from "./components/background/ConstelacaoBackground";
+import { AuthProvider } from "./contexts/AuthContext";
+
 
 function App() {
   return (
-    <BrowserRouter>
-      <ConstelacaoBackground>
-        <ToastContainer />
+    <AuthProvider>
+      <BrowserRouter>
+        <ConstelacaoBackground>
+          <ToastContainer />
 
-        <div className="app-shell">
-          <Navbar />
+          <div className="app-shell">
+            <Navbar />
 
-          <main className="min-h-[80vh]">
-            <Routes>
-              <Route path="/" element={<Home />} />
+            <main className="min-h-[80vh]">
+              <Routes>
+                <Route path="/" element={<Home />} />
 
-              <Route path="/login" element={<Login />} />
-              <Route path="/cadastro" element={<Cadastro />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/cadastro" element={<Cadastro />} />
 
-              <Route path="/especialidades" element={<ListaEspecialidades />} />
-              <Route path="/cadastrarespecialidade" element={<FormEspecialidade />} />
-              <Route path="/editarespecialidade/:id" element={<FormEspecialidade />} />
-              <Route path="/deletarespecialidade/:id" element={<DeletarEspecialidade />} />
+                <Route path="/especialidades" element={<ListaEspecialidades />} />
+                <Route path="/cadastrarespecialidade" element={<FormEspecialidade />} />
+                <Route path="/editarespecialidade/:id" element={<FormEspecialidade />} />
+                <Route path="/deletarespecialidade/:id" element={<DeletarEspecialidade />} />
 
-              <Route path="/consultas" element={<ListaConsulta />} />
-              <Route path="/cadastrarconsulta" element={<FormConsulta />} />
-              <Route path="/editarconsulta/:id" element={<FormConsulta />} />
-              <Route path="/deletarconsulta/:id" element={<DeletarConsulta />} />
+                <Route path="/consultas" element={<ListaConsulta />} />
+                <Route path="/marcarconsulta" element={<FormConsulta />} />
+                <Route path="/editarconsulta/:id" element={<FormConsulta />} />
+                <Route path="/deletarconsulta/:id" element={<DeletarConsulta />} />
+              
 
-              <Route
-                path="/perfil"
-                element={
-                  <PrivateRoute>
-                    <Perfil />
-                  </PrivateRoute>
-                }
-              />
+                <Route
+                  path="/perfil"
+                  element={
+                    <PrivateRoute>
+                      <Perfil />
+                    </PrivateRoute>
+                  }
+                />
 
-              <Route path="/sobrenos" element={<Sobrenos />} />
-            </Routes>
-          </main>
+                <Route path="/sobrenos" element={<Sobrenos />} />
+              </Routes>
+            </main>
 
-          <ThemeToggle />
-          <Footer />
-        </div>
-      </ConstelacaoBackground>
-    </BrowserRouter>
+            <ThemeToggle />
+            <Footer />
+          </div>
+        </ConstelacaoBackground>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 

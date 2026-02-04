@@ -1,12 +1,22 @@
-import React from "react"
+import {
+  CalendarPlus,
+  CaretDown,
+  CheckCircle,
+} from "@phosphor-icons/react";
+import { useParams } from "react-router-dom";
+import { isAuthenticated } from "../../../utils/Auth";
+import ConsultaMedico from "./ConsultaMedico";
+import ConsultaPaciente from "./ConsultaPaciente";
 
 function FormConsulta() {
-  return (
-    <div>
-      <h1>Formulário de Consulta</h1>     
-      
-    </div>
+  return(
+    <>
+      {
+        isAuthenticated() ?
+        <ConsultaMedico /> :
+        <ConsultaPaciente/> 
+      }
+    </>
   )
 }
-
-export default FormConsulta
+export default FormConsulta;
