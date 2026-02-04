@@ -35,48 +35,37 @@ export function AuthProvider({children}: AuthProviderProps) {
 
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
-    // Sempre que o usuario mudar e tiver token, salva no localStorage
     useEffect(() => {
         if (usuario.token) {
             setToken(usuario.token);
+            localStorage.setItem('crmed_id', usuario.id.toString());
         }
     }, [usuario]);
 
     useEffect(() => {
         async function restoreSession() {
             const token = localStorage.getItem('crmed_token');
-
-            if (!token) {
+            const idSalvo = localStorage.getItem('crmed_id');
+            if (!token || !idSalvo) {
                 setIsLoading(false);
                 return;
             }
-
             if (usuario.id === 0) {
                 try {
-                    console.log("Tentando restaurar sessão com token:", token);
-                    
-                    const response = await fetch('https://crmed.onrender.com/medicos/me', {
+                    const response = await fetch(`https://crmed.onrender.com/medicos/${idSalvo}`, {
                         headers: {
                             'Authorization': token
                         }
                     });
                     
-                    console.log("Status da resposta:", response.status);
-
                     if (response.ok) {
                         const userData = await response.json();
-                        console.log("Dados recebidos:", userData);
                         setUsuario({ ...userData, token });
                     } else {
-                        console.error("token rejeitado:", response.statusText);
-
-                        if (response.status === 401 || response.status === 403) {
-                            alert("Sessão expirada. Faça login novamente.");
-                            handleLogout();
-                        }
+                        handleLogout();
                     }
                 } catch (error) {
-                    console.error("Erro na restauração:", error);
+                    console.error("Erro de conexão:", error);
                 } finally {
                     setIsLoading(false);
                 }

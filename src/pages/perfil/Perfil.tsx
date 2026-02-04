@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom'
 
 function Perfil() {
   const {usuario, handleLogout} = useContext(AuthContext)
-  console.log(usuario)
   const navigate = useNavigate()
+  
   useEffect(()=>{
     if(usuario.token === '') {
       navigate('/login')
@@ -30,10 +30,8 @@ function Perfil() {
             font-[var(--font-sans)]
           "
         >
-          {/* Linha superior decorativa */}
           <div className="absolute top-0 left-0 h-2 w-full bg-gradient-to-r from-transparent via-[#2DD4BF] to-transparent opacity-100 rounded-t-[3rem]" />
 
-          {/* Foto de perfil */}
           <div className="absolute -top-24 left-1/2 -translate-x-1/2">
             <div
               className="
@@ -52,7 +50,6 @@ function Perfil() {
             </div>
           </div>
 
-          {/* Informações do perfil */}
           <div className="px-10 pb-14 text-center">
             <h3 className="text-3xl font-black tracking-tight text-[var(--text)] mb-2 font-[var(--font-display)]">
               {usuario.nome}
@@ -63,7 +60,7 @@ function Perfil() {
             </p>
 
             <p className="text-xs font-black uppercase tracking-[0.25em] text-[#2DD4BF] font-[var(--font-sans)]">
-              {usuario.especialidade.nome}
+              {usuario.especialidade?.nome || "Especialidade não carregada"}
             </p>
           </div>
         </article>
