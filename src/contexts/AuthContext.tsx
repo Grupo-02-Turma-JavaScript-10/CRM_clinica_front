@@ -76,7 +76,7 @@ export function AuthProvider({children}: AuthProviderProps) {
                         }
                     }
                 } catch (error) {
-                    console.error("Erro CRÍTICO na restauração:", error);
+                    console.error("Erro na restauração:", error);
                 } finally {
                     setIsLoading(false);
                 }
