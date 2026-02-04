@@ -4,11 +4,11 @@ import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import LogoDark from "../../assets/dark-theme.svg";
 import LogoLight from "../../assets/light-theme.svg";
 
-import { isAuthenticated, clearToken } from "../../utils/Auth";
+import { isAuthenticated } from "../../utils/Auth";
 import { AuthContext } from "../../contexts/AuthContext";
 
 export default function Navbar() {
-  const {usuario, handleLogout} = useContext(AuthContext);
+  const {handleLogout} = useContext(AuthContext);
 
   const [open, setOpen] = useState(false);
   const [logged, setLogged] = useState<boolean>(isAuthenticated());

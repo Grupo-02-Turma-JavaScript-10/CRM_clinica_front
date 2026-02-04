@@ -1,9 +1,8 @@
-import { useContext, useEffect, useState, type ChangeEvent } from "react";
+import { useContext, useState, type ChangeEvent } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 import type { UsuarioLogin } from "../../models/UsuarioLogin";
-import { isAuthenticated } from "../../utils/Auth";
 import { ClipLoader } from "react-spinners";
 import { NavLink } from "react-router-dom";
 
@@ -11,7 +10,7 @@ import { NavLink } from "react-router-dom";
 function Login() {
   const navigate = useNavigate();
 
-  const {usuario, handleLogin, isLoading} = useContext(AuthContext);
+  const {handleLogin, isLoading} = useContext(AuthContext);
 
   const [usuarioLogin, setUsuarioLogin] = useState<UsuarioLogin>({} as UsuarioLogin);
 

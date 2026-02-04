@@ -1,7 +1,5 @@
-import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../contexts/AuthContext"
-import { ToastAlerta } from "../../utils/ToastAlerta";
 import { buscar } from "../../services/Service";
 
 function detectDark(): boolean {
@@ -42,8 +40,6 @@ type FeatureCard = {
 
 export default function Home() {
   const navigate = useNavigate();
-  const { usuario } = useContext(AuthContext);
-  const token = usuario?.token ?? "";
 
   const [isDark, setIsDark] = useState<boolean>(() => detectDark());
 

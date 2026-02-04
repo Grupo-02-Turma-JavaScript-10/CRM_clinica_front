@@ -1,9 +1,9 @@
-import React, { useContext, useEffect } from 'react'
+import { useContext, useEffect } from 'react'
 import { AuthContext } from '../../contexts/AuthContext'
 import { useNavigate } from 'react-router-dom'
 
 function Perfil() {
-  const {usuario, handleLogout} = useContext(AuthContext)
+  const {usuario} = useContext(AuthContext)
   console.log(usuario)
   const navigate = useNavigate()
   useEffect(()=>{

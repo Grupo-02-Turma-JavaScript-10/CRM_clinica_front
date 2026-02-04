@@ -33,7 +33,7 @@ function EditarConsulta() {
     p.toLowerCase().includes(pacienteInput.toLowerCase())
   );
 
-  const selecionarPaciente = (nome) => {
+  const selecionarPaciente = (nome: any) => {
     setPacienteInput(nome);
     setMostrarSugestoes(false);
   };

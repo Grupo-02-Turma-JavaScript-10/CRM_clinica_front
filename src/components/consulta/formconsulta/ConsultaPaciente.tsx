@@ -1,17 +1,14 @@
 import { CalendarPlus, CaretDown, CheckCircle } from "@phosphor-icons/react";
-import { useContext, useEffect, useState, type ChangeEvent, type FormEvent } from "react";
+import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
 import type { Medico } from "../../../models/Medico";
 import { cadastrar } from "../../../services/Service";
 import type { Paciente } from "../../../models/Paciente";
 import type { Consulta } from "../../../models/Consulta";
-import { buscar } from "../../../services/Service";
 import { ToastAlerta } from "../../../utils/ToastAlerta";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../../contexts/AuthContext";
 
 function ConsultaPaciente() {
   const navigate = useNavigate();
-  const { usuario } = useContext(AuthContext);
 
   const [medicos, setMedicos] = useState<Medico[]>([])
   const [medicoSelecionado, setMedicoSelecionado] = useState<Medico | null>(null);

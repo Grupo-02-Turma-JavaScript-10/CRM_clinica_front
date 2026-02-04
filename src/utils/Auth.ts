@@ -1,4 +1,4 @@
-import { api, buscar } from "../services/Service";
+import { api } from "../services/Service";
 import { ToastAlerta } from "./ToastAlerta";
 
 export const AUTH_TOKEN_KEY = "crmed_token";

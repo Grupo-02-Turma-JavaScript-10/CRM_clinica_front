@@ -13,7 +13,7 @@ import { buscar } from "../../../services/Service";
 import { getToken } from "../../../utils/Auth";
 
 function ListaConsultas() {
-  const {usuario, handleLogout} = useContext(AuthContext);
+  const {usuario} = useContext(AuthContext);
   const navigate = useNavigate();
   const [consultas, setConsultas] = useState<Consulta[]>([]);
   const [isLoading, setIsLoading] = useState(true);
