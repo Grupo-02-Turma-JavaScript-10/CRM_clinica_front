@@ -3,6 +3,7 @@ import type { UsuarioLogin } from "../models/UsuarioLogin";
 import { login } from "../services/Service";
 import { ToastAlerta } from "../utils/ToastAlerta";
 import { clearToken, setToken } from "../utils/Auth";
+import type { Especialidade } from "../models/Especialidade";
 
 interface AuthContextProps {
     usuario: UsuarioLogin;
@@ -21,6 +22,8 @@ export function AuthProvider({children}: AuthProviderProps) {
     const noSection = {
         id: 0,
         nome: '',
+        especialidade: {} as Especialidade,
+        consulta: [],
         usuario: '',
         senha: '',
         foto: '',
@@ -37,6 +40,34 @@ export function AuthProvider({children}: AuthProviderProps) {
             setToken(usuario.token);
         }
     }, [usuario]);
+
+    // Restaura a sessão ao carregar a aplicação
+    useEffect(() => {
+        async function restoreSession() {
+            const token = localStorage.getItem('crmed_token');
+            if (token && usuario.id === 0) {
+                setIsLoading(true);
+                try {
+                    const response = await fetch('https://crmed.onrender.com/medicos/me', {
+                        headers: {
+                            'Authorization': token
+                        }
+                    });
+                    
+                    if (response.ok) {
+                        const userData = await response.json();
+                        setUsuario({ ...userData, token });
+                    } else {
+                        clearToken();
+                    }
+                } catch (error) {
+                    clearToken();
+                }
+                setIsLoading(false);
+            }
+        }
+        restoreSession();
+    }, []);
 
     async function handleLogin(usuarioLogin: UsuarioLogin) {
         setIsLoading(true)
