@@ -1,14 +1,8 @@
-import { useContext, useEffect, useMemo, useRef, useState } from "react";
+import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-<<<<<<< HEAD
-import React, { useContext } from "react"
 import { AuthContext } from "../../contexts/AuthContext"
-=======
-import { AuthContext } from "../../contexts/AuthContext";
 import { ToastAlerta } from "../../utils/ToastAlerta";
 import { buscar } from "../../services/Service";
->>>>>>> home
 
 function detectDark(): boolean {
   const html = document.documentElement;
